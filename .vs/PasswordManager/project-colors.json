@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "13a8e059-0059-4ece-b47b-26c976ad4809": {
+      "ProjectGuid": "13a8e059-0059-4ece-b47b-26c976ad4809",
+      "DisplayName": "PasswordManager",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
