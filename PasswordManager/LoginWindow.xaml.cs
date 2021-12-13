@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace PasswordManager
 {
@@ -21,25 +22,36 @@ namespace PasswordManager
             InitializeComponent();
         }
 
-        private void BtnClickBack(object sender, RoutedEventArgs e)
+        public bool isDarkTheme { get; set; }
+        private readonly PaletteHelper palletHelper = new PaletteHelper();
+
+        private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            Window mainWindow = new MainWindow();
-            Close();
-            mainWindow.Show();
+            ITheme theme = palletHelper.GetTheme();
+
+            if (isDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
+            {
+                isDarkTheme = false;
+                theme.SetBaseTheme(Theme.Light);
+            }
+            else
+            {
+                isDarkTheme = true;
+                theme.SetBaseTheme(Theme.Dark);
+            }
+            palletHelper.SetTheme(theme);
         }
 
-        private void BtnClickLogin(object sender, RoutedEventArgs e)
+        private void exitApp(object sender, RoutedEventArgs e)
         {
-            Window mainWindow = new MainWindow();
-            Close();
-            mainWindow.Show();
+            Application.Current.Shutdown();
         }
 
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            Window registerWindow = new RegisterWindow();
-            Close();
-            registerWindow.Show();
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
+
     }
 }
