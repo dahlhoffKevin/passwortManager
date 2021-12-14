@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tYqD837w5TCoShMj+pOs1+oqAna57eo9HE5/Yq4W3U5wMQkjHv/jzc/u3nyhKsQgXFIFCfaf88RPl00maIEiTQ==",
+  "dgSpecHash": "TizkeYbz0vcGCE5Kza93QSl+AWNS0WRvHPZkDKPK6VRj6PgnanoAL4+n/ZGuMHetLo2qbYKQZr1dOGF3sk/yWg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\bcar0\\source\\repos\\PasswordManager\\PasswordManager\\PasswordManager.csproj",
+  "projectFilePath": "C:\\Users\\bcar0\\Desktop\\PasswortManager\\PasswordManager\\PasswordManager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bcar0\\.nuget\\packages\\materialdesigncolors\\2.0.1\\materialdesigncolors.2.0.1.nupkg.sha512",
     "C:\\Users\\bcar0\\.nuget\\packages\\materialdesignthemes\\4.1.0\\materialdesignthemes.4.1.0.nupkg.sha512"

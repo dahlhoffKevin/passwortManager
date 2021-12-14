@@ -15,33 +15,12 @@ using MaterialDesignThemes.Wpf;
 
 namespace PasswordManager
 {
-    public partial class Login : Window
-    {
-        public Login()
+    public partial class LoginWindow : Window
+    {   
+        public LoginWindow()
         {
             InitializeComponent();
         }
-
-        public bool isDarkTheme { get; set; }
-        private readonly PaletteHelper palletHelper = new PaletteHelper();
-
-        private void toggleTheme(object sender, RoutedEventArgs e)
-        {
-            ITheme theme = palletHelper.GetTheme();
-
-            if (isDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            {
-                isDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
-            }
-            else
-            {
-                isDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            palletHelper.SetTheme(theme);
-        }
-
         private void exitApp(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -52,6 +31,18 @@ namespace PasswordManager
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+        private void btn_login_Click(object sender, RoutedEventArgs e)
+        {
+            Window mainWindow = new MainWindow();
+            Close();
+            mainWindow.Show();
+        }
 
+        private void btn_signup_Click(object sender, RoutedEventArgs e)
+        {
+            Window registerWindow = new RegisterWindow();
+            Close();
+            registerWindow.Show();
+        }
     }
 }

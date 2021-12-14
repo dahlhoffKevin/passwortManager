@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
+using System.Windows.Navigation;
 
 namespace PasswordManager
 {
@@ -25,68 +27,27 @@ namespace PasswordManager
             InitializeComponent();
         }
 
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        private void exitApp(object sender, RoutedEventArgs e)
         {
-            String username = txtUsername.Text;
-            String password = txtPassword.Text;
-            String passwordRepetition = txtPasswordRepetition.Text;
-
-            #pragma warning disable CS8600 // Das NULL-Literal oder ein möglicher NULL-Wert wird in einen Non-Nullable-Typ konvertiert.
-            String winDir = System.IO.Path.GetPathRoot(Environment.SystemDirectory);
-            #pragma warning restore CS8600 // Das NULL-Literal oder ein möglicher NULL-Wert wird in einen Non-Nullable-Typ konvertiert.
-
-            String path = winDir + @"\PasswordManager";
-
-            String notMatchingPasswords = "Deine Passwörter stimmen nicht überein";
-            String notAllFieldsFilledIn = "Alle Felder müssen ausgefüllt sein";
-            String anErrorOccured = "Ein Fehler ist aufgetretten";
-
-
-            if (! String.IsNullOrWhiteSpace(username) || 
-                ! String.IsNullOrWhiteSpace(password) || 
-                ! String.IsNullOrWhiteSpace(passwordRepetition))
-            {
-                if (password == passwordRepetition)
-                {
-                    try
-                    {
-                        if (Directory.Exists(path))
-                        {
-                            MessageBox.Show("Ordner bereits vorhanden", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                        } else
-                        {
-                            Directory.CreateDirectory(path);
-                            MessageBox.Show("Ordner erstellt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                    } 
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(anErrorOccured + ": " + ex.ToString(), "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                } 
-                else
-                {
-                    MessageBox.Show(notMatchingPasswords, "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-            }
-            else
-            {
-                MessageBox.Show(notAllFieldsFilledIn, "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            Application.Current.Shutdown();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            Window mainWindow = new MainWindow();
-            Close();
-            mainWindow.Show();
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
+        private void btn_register_Click(object sender, RoutedEventArgs e)
         {
-            Window mainWindow = new MainWindow();
+            
+        }
+
+        private void btn_back_Click(object sender, RoutedEventArgs e)
+        {
+            Window loginWindow = new LoginWindow();
             Close();
-            mainWindow.Show();
+            loginWindow.Show();
         }
     }
 }

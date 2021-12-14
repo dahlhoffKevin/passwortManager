@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace PasswordManager
 {
@@ -21,20 +22,5 @@ namespace PasswordManager
         {
             InitializeComponent();
         }
-
-        private void BtnClickLogin(object sender, RoutedEventArgs e)
-        {
-            Window loginWindow = new Login();
-            Close();
-            loginWindow.Show();
-        }
-
-        private void BtnClickRegister(object sender, RoutedEventArgs e)
-        {
-            Window registerWindow = new RegisterWindow();
-            Close();
-            registerWindow.Show();
-        }
-
     }
 }
