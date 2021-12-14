@@ -63,7 +63,7 @@
                              materialDesign:HintAssist.Hint="Enter Master Password"
                              BorderThickness="2"
                              BorderBrush="{DynamicResource MaterialDesignDivider}"
-                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}">
+                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}" Cursor="IBeam">
                 </PasswordBox>
 
                 <PasswordBox Margin="0 20 0 0"

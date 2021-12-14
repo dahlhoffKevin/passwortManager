@@ -20,24 +20,19 @@ namespace PasswordManager
         {
             try
             {
-                // checks if the main folder exists
                 if (!Directory.Exists(main_folder_path))
                 {
-                    // creates the main folder if it not exists
                     Directory.CreateDirectory(main_folder_path);
-
-                    // creates the passwords folder if it not exists
                     Directory.CreateDirectory(passwords_folder_path);
+                    File.Create(main_folder_path + @"\config.yaml");
                 }
                 else if (!Directory.Exists(passwords_folder_path))
                 {
-                    // creates the passwords folder if it not exists
                     Directory.CreateDirectory(passwords_folder_path);
                 }
             } 
             catch (Exception ex)
             {
-                //shutsdown the app if an error occures
                 Current.Shutdown();
                 Console.WriteLine("an error occured: " + ex.ToString());
             }

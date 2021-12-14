@@ -37,17 +37,16 @@ namespace PasswordManager
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
-
-        private void btn_register_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void btn_back_Click(object sender, RoutedEventArgs e)
         {
             Window loginWindow = new LoginWindow();
             Close();
             loginWindow.Show();
+        }
+        private void btn_register_Click(object sender, RoutedEventArgs e)
+        {
+            string entry_master_password = txtMasterPassword.ToString();
+            MessageBox.Show(entry_master_password);
         }
     }
 }

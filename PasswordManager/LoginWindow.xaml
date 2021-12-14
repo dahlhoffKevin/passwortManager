@@ -29,7 +29,7 @@
                                          StaysOpen="False"
                                          Height="25">
 
-                    <StackPanel Margin="16 10 0 6"
+                    <StackPanel Margin="10 1 0 0"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Center">
 
@@ -53,7 +53,7 @@
                 <TextBlock FontSize="17"
                            FontWeight="SemiBold"
                            HorizontalAlignment="Center"
-                           Text="Log in to your existing account">
+                           Text="Enter Password to unlock your safe">
                 </TextBlock>
 
                 <PasswordBox Margin="0 20 0 0"
@@ -85,7 +85,7 @@
                         Width="300"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
-                        Content="Create Master Password" 
+                        Content="Create New Safe" 
                         Cursor="Hand" 
                         Click="btn_signup_Click">
                 </Button>
