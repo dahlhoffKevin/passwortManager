@@ -11,10 +11,12 @@ namespace PasswordManager
 {
     public partial class App : Application
     {
-        String main_folder_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) + 
+        string main_folder_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
             "PasswordManager";
-        String passwords_folder_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) + 
-            @"PasswordManager\Passwords";
+        string userdata_folder_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+            @"PasswordManager\userdata\";
+        string passwords_folder_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+            @"PasswordManager\userdata\passwords\";
 
         void startup_check_files(object sender, StartupEventArgs e)
         {
@@ -23,8 +25,14 @@ namespace PasswordManager
                 if (!Directory.Exists(main_folder_path))
                 {
                     Directory.CreateDirectory(main_folder_path);
+                    Directory.CreateDirectory(userdata_folder_path);
+                    Directory.CreateDirectory(userdata_folder_path);
                     Directory.CreateDirectory(passwords_folder_path);
-                    File.Create(main_folder_path + @"\config.yaml");
+
+                }
+                else if (!Directory.Exists(userdata_folder_path))
+                {
+                    Directory.CreateDirectory(userdata_folder_path);
                 }
                 else if (!Directory.Exists(passwords_folder_path))
                 {
@@ -37,6 +45,5 @@ namespace PasswordManager
                 Console.WriteLine("an error occured: " + ex.ToString());
             }
         }
-
     }
 }

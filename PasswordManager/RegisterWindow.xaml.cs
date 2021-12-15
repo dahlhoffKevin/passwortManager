@@ -14,12 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Navigation;
+using PasswordManager;
 
 namespace PasswordManager
 {
-    /// <summary>
-    /// Interaktionslogik für RegisterWindow.xaml
-    /// </summary>
     public partial class RegisterWindow : Window
     {
         public RegisterWindow()
@@ -45,8 +43,41 @@ namespace PasswordManager
         }
         private void btn_register_Click(object sender, RoutedEventArgs e)
         {
-            string entry_master_password = txtMasterPassword.ToString();
-            MessageBox.Show(entry_master_password);
+            string entry_master_password = txtMasterPassword.Password.ToString();
+            string entry_master_password_repeat = txtMasterPasswordRepeat.Password.ToString();
+            string userdata_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                    @"PasswordManager\userdata\"; // C:\PasswordManager\userdata\
+            string masterpassword_file = "master_password.yaml";
+
+            if (entry_master_password == entry_master_password_repeat)
+            {
+                MessageBox.Show("Passwords not machting!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                if (!File.Exists(userdata_folder + masterpassword_file))
+                {
+                    File.Create(userdata_folder + masterpassword_file).Dispose();
+                    using StreamWriter file = new(userdata_folder + masterpassword_file, append: true);
+                    file.WriteLine(entry_master_password.ToString());
+                    MessageBox.Show("Master Password created", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    txtMasterPassword.Password = "";
+                    txtMasterPasswordRepeat.Password = "";
+                }
+                else
+                {
+                    MessageBox.Show("Master Password already exists!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                File.Delete(userdata_folder + masterpassword_file);
+            }
+
         }
     }
 }
