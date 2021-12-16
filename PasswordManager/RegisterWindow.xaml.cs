@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Navigation;
 using PasswordManager;
+using PasswordManager.EncryptionHelper;
 
 namespace PasswordManager
 {
@@ -49,7 +50,7 @@ namespace PasswordManager
                     @"PasswordManager\userdata\"; // C:\PasswordManager\userdata\
             string masterpassword_file = "master_password.yaml";
 
-            if (entry_master_password == entry_master_password_repeat)
+            if (!(entry_master_password == entry_master_password_repeat))
             {
                 MessageBox.Show("Passwords not machting!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -61,7 +62,10 @@ namespace PasswordManager
                 {
                     File.Create(userdata_folder + masterpassword_file).Dispose();
                     using StreamWriter file = new(userdata_folder + masterpassword_file, append: true);
-                    file.WriteLine(entry_master_password.ToString());
+
+                    string encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_master_password.ToString());
+
+                    file.WriteLine(encrypted_master_password);
                     MessageBox.Show("Master Password created", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     txtMasterPassword.Password = "";

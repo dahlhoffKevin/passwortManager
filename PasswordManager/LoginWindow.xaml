@@ -85,7 +85,7 @@
                         Width="300"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
-                        Content="Create New Safe" 
+                        Content="Create Master Password" 
                         Cursor="Hand" 
                         Click="btn_signup_Click">
                 </Button>
