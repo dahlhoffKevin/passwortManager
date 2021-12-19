@@ -71,13 +71,25 @@ namespace PasswordManager
                 MessageBox.Show("Passwords Not Matching", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            MessageBox.Show("Passwords Matching", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            Window mainWindow = new MainWindow();
+            Close();
+            mainWindow.Show();
+
         }
         private void btn_signup_Click(object sender, RoutedEventArgs e)
         {
             Window registerWindow = new RegisterWindow();
             Close();
             registerWindow.Show();
+        }
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }

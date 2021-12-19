@@ -20,28 +20,12 @@
         materialDesign:ShadowAssist.ShadowDepth="Depth4">
         
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
-            
+
             <StackPanel>
-
-                <materialDesign:PopupBox HorizontalAlignment="Right" 
-                                         Margin="0 20 20 0"
-                                         PlacementMode="BottomAndAlignRightEdges"
-                                         StaysOpen="False"
-                                         Height="25">
-
-                    <StackPanel Margin="10 1 0 0"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Center">
-
-                        <Button x:Name="btn_exit" 
-                                    ToolTip="Close Application"
-                                    Content="Exit Application"
-                                    Click="exitApp">
-                        </Button>
-
-                    </StackPanel>
-
-                </materialDesign:PopupBox>
+                <StackPanel Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="btnClose_Click" Tag="IsCloseButton" Cursor="Hand"/>
+                    <Button x:Name="btnMinimize" Style="{DynamicResource IconButtonsStyle}" Content="{DynamicResource minimize}" Click="btnMinimize_Click"/>
+                </StackPanel>
 
                 <TextBlock Margin="0 25 0 5"
                            HorizontalAlignment="Center"

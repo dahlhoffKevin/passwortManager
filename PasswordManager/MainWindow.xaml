@@ -3,89 +3,96 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:PasswordManager"
-        mc:Ignorable="d"
-        Title="Login" Height="760" Width="450"
-        WindowStartupLocation="CenterScreen"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{x:Null}"
-        AllowsTransparency="True"
-        WindowStyle="None">
+        mc:Ignorable="d" Name="home"
+        Title="MainWindow" Height="900" Width="1500"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        ResizeMode="NoResize" WindowState="Normal">
+    <Border CornerRadius="8" Background="{DynamicResource PrimaryBackgroundColor}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!-- Start: GridColum Left-->
+            <Border CornerRadius="8 0 0 8" Background="{DynamicResource SecundaryBackgroundColor}">
+                <Grid x:Name="gridMenu" Width="60">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-    <materialDesign:Card 
-        UniformCornerRadius="15" 
-        Background="{DynamicResource MaterialDesignPaper}"
-        Margin="25"
-        materialDesign:ShadowAssist.ShadowDepth="Depth4">
+                    <!-- Logo -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Path Data="{DynamicResource logo}" Margin="16 0 0 0" Stretch="Fill" Fill="{DynamicResource PrimaryBlueColor}" Width="25" Height="25" HorizontalAlignment="Left"/>
+                        <Label Content="PW-M" Foreground="{DynamicResource PrimaryBlueColor}" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="14 0 0 0"/>
+                    </StackPanel>
 
-        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+                    <!-- Menu -->
+                    <ToggleButton x:Name="btnMenu"  HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Style="{StaticResource MenuIconStyle}" Margin="0 0 15 0">
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="HideStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="200" To="60" Duration="0:0:0.3">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="ShowStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="60" To="200" Duration="0:0:0.3">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
 
-            <StackPanel>
+                    <StackPanel Grid.Row="3">
+                        <RadioButton x:Name="rdHome" IsChecked="True" Content="Home" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource home}" Click="rdHome_Click"/>
+                        <RadioButton x:Name="rdSounds" Content="Sounds" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource notes}" Margin="0 5 0 5" Click="rdSounds_Click" Cursor="Hand"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!-- End: GridColum Left-->
 
-                <Image Margin="0 60 0 5" 
-                       Source="undraw_Secure_server_re_8wsq.png"
-                       Height="100">
-                </Image>
+            <!-- Start: GridColumn Rigth -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-                <TextBlock Margin="0 25 0 5"
-                           HorizontalAlignment="Center"
-                           FontSize="28"
-                           FontWeight="Bold"
-                           Text="Welcome Back">
-                </TextBlock>
+                <!-- Start: Button Close | Restore | Minimize -->
+                <StackPanel Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="btnClose_Click" Tag="IsCloseButton" Cursor="Hand"/>
+                    <Button x:Name="btnRestore" Margin="5,0" Click="btnRestore_Click">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonsStyle}">
+                                <Setter Property="Content" Value="{DynamicResource maximize}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=home, Path=WindowState}" Value="Maximized">
+                                        <Setter Property="Content" Value="{DynamicResource restore}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="btnMinimize" Style="{DynamicResource IconButtonsStyle}" Content="{DynamicResource minimize}" Click="btnMinimize_Click"/>
+                </StackPanel>
+                <!-- End: Button Close | Restore | Minimize -->
 
-                <TextBlock FontSize="17"
-                           FontWeight="SemiBold"
-                           HorizontalAlignment="Center"
-                           Text="Log in to your existing account">
-                </TextBlock>
-
-                <TextBox Margin="0 50 0 0"
-                         x:Name="txtUsername"
-                         Width="300"
-                         FontSize="18"
-                         materialDesign:HintAssist.Hint="Enter Username"
-                         BorderThickness="2"
-                         BorderBrush="{DynamicResource MaterialDesignDivider}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}">
-                </TextBox>
-
-                <PasswordBox Margin="0 20 0 0"
-                             x:Name="txtPassword"
-                             Width="300"
-                             FontSize="18"
-                             materialDesign:HintAssist.Hint="Enter Password"
-                             BorderThickness="2"
-                             BorderBrush="{DynamicResource MaterialDesignDivider}"
-                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}">
-                </PasswordBox>
-
-                <Button Margin="0 20 0 0"
-                        x:Name="btn_login"
-                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                        Height="53"
-                        Width="300"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                        FontSize="18"
-                        Content="LOG IN">
-                </Button>
-
-                <Button Margin="0 20 0 0"
-                        x:Name="btn_signup"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                        Height="53"
-                        Width="300"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                        FontSize="18"
-                        Content="Create Account" Cursor="Hand">
-                </Button>
-
-            </StackPanel>
-
-        </materialDesign:DialogHost>
-
-    </materialDesign:Card>
+                <Border Grid.Row="1" Margin="10">
+                    <Frame x:Name="PagesNavigation" NavigationUIVisibility="Hidden">
+                        <!-- Page Content -->
+                    </Frame>
+                </Border>
+            </Grid>
+            <!-- Start: GridColumn Rigth -->
+        </Grid>
+    </Border>
 </Window>
