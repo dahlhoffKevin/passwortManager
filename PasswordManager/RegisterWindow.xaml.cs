@@ -1,21 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using System.Windows.Navigation;
-using PasswordManager;
-using PasswordManager.EncryptionHelper;
 
 namespace PasswordManager
 {
@@ -63,7 +49,7 @@ namespace PasswordManager
                     File.Create(userdata_folder + masterpassword_file).Dispose();
                     using StreamWriter file = new(userdata_folder + masterpassword_file, append: true);
 
-                    string encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_master_password.ToString());
+                    string encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_master_password);
 
                     file.WriteLine(encrypted_master_password);
                     MessageBox.Show("Master Password created", "Information", MessageBoxButton.OK, MessageBoxImage.Information);

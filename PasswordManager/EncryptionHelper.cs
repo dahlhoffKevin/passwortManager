@@ -1,73 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Security.Cryptography;
-using System.Configuration;
-using System.Collections.Specialized;
 
-namespace PasswordManager.EncryptionHelper
+namespace EncryptionHelper
 {
-    public static class EncryptionHelper
-    {
-        public static string Encrypt(string clearText) // Verschlüsseln
-        {
-            string EncryptionKey = ConfigurationManager.AppSettings.Get("decryptionKey").ToString();
+	public class EncryptionHelper
+	{
+		public static string Encrypt(string text)
+		{
+			var b = Encoding.UTF8.GetBytes(text);
+			var encrypted = getAes().CreateEncryptor().TransformFinalBlock(b, 0, b.Length);
+			return Convert.ToBase64String(encrypted);
+		}
 
-            if (EncryptionKey == null)
-            {
-                Console.WriteLine("An error occured: could not load encryption key");
-                App.Current.Shutdown();
-            }
+		public static string Decrypt(string encrypted)
+		{
+			var b = Convert.FromBase64String(encrypted);
+			var decrypted = getAes().CreateDecryptor().TransformFinalBlock(b, 0, b.Length);
+			return Encoding.UTF8.GetString(decrypted);
+		}
 
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    clearText = Convert.ToBase64String(ms.ToArray());
-                }
-            }
-            return clearText;
-        }
-        public static string Decrypt(string cipherText) // Entschlüsseln
-        {
-            string EncryptionKey = ConfigurationManager.AppSettings.Get("decryptionKey").ToString();
+		static Aes getAes()
+		{
+			var keyBytes = new byte[16];
+			var skeyBytes = Encoding.UTF8.GetBytes("A2CDb7Oc3E0eZ85THaS1JW6Y9hlLIUI4");
+			Array.Copy(skeyBytes, keyBytes, Math.Min(keyBytes.Length, skeyBytes.Length));
 
-            if (EncryptionKey == null)
-            {
-                Console.WriteLine("An error occured: could not load encryption key");
-                App.Current.Shutdown();
-            }
+			Aes aes = Aes.Create();
+			aes.Mode = CipherMode.CBC;
+			aes.Padding = PaddingMode.PKCS7;
+			aes.KeySize = 128;
+			aes.Key = keyBytes;
+			aes.IV = keyBytes;
 
-            cipherText = cipherText.Replace(" ", "+");
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        cs.Close();
-                    }
-                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
-                }
-            }
-            return cipherText;
-        }
-    }
+			return aes;
+		}
+
+	}
 }
