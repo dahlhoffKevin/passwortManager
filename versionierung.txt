@@ -1,0 +1,16 @@
+Example
+0.a.20211221
+
+or:
+0.b.20211221
+
+or:
+1.20211221
+
+Explanation:
+
+0. / 1.   = Version 0 - infinite
+.a. / .b. = Aplha / Beta
+2021      = Year
+12        = Month
+21        = Day

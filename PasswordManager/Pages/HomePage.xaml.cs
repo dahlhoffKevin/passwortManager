@@ -24,5 +24,11 @@ namespace PasswordManager.Pages
         {
             InitializeComponent();
         }
+
+        private void btn_create_password(object sender, RoutedEventArgs e)
+        {
+            Window addPasswordWindow = new addPassword();
+            addPasswordWindow.Show();
+        }
     }
 }

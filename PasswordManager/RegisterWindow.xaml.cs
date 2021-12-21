@@ -52,6 +52,7 @@ namespace PasswordManager
                     string encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_master_password);
 
                     file.WriteLine(encrypted_master_password);
+                    file.Close();
                     MessageBox.Show("Master Password created", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     txtMasterPassword.Password = "";
@@ -64,7 +65,7 @@ namespace PasswordManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ups. An Error occured:\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 File.Delete(userdata_folder + masterpassword_file);
             }
 
