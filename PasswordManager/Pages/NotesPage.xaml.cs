@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace PasswordManager.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para NotesPage.xaml
-    /// </summary>
     public partial class NotesPage : Page
     {
         public NotesPage()

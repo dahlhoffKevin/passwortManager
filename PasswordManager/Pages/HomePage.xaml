@@ -13,39 +13,32 @@
     <Grid>
         <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}"/>
 
-        <TextBlock Margin="-500 -300 0 0" 
-                   Width="200"
-                   Height="30"
+        <TextBlock Margin="262,46,250,361"
                    Text="Password Manager"
                    TextAlignment="Center"
-                   FontSize="22"
+                   FontSize="30"
                    FontWeight="Bold"/>
 
-        <TextBlock Margin="-500 -50 0 0" 
+        <TextBlock Margin="250,100,250,10" 
                    Width="300"
-                   Height="200"
                    TextWrapping="NoWrap"
                    TextAlignment="Center"
-                   FontSize="18"
+                   FontSize="20"
         >
         Version:<LineBreak/>
-        0.a.20211221<LineBreak/><LineBreak/>
+        0.a.20211222<LineBreak/><LineBreak/>
         Developer:<LineBreak/>
         Kevin Dahlhoff<LineBreak/><LineBreak/>
         Official Discord:<LineBreak/>
-        https://discord.gg/TM35FKFB2G
+        https://discord.gg/TM35FKFB2G<LineBreak/><LineBreak/>
         </TextBlock>
-
-        <Button Margin="400 -300 0 0"
-                        x:Name="btn_add_password"
-                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                        Height="53"
-                        Width="300"
-                        materialDesign:ButtonAssist.CornerRadius="10"
-                        FontSize="18"
-                        Content="Add Password" Cursor="Hand" Click="btn_create_password">
-        </Button>
+        <TextBlock Margin="219,339,207,10"
+                   TextAlignment="Center"
+                   FontSize="20">
+            If you have any problems or questions,<LineBreak/>
+            don't hesitate to contact me on Discord:<LineBreak/>
+            <Bold>K3vin#7507</Bold>
+        </TextBlock>
     </Grid>
 
 </Page>

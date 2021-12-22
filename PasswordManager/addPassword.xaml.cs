@@ -30,7 +30,6 @@ namespace PasswordManager
         {
             Close();
         }
-
         private static bool check_folders()
         {
             string userdata_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
@@ -73,7 +72,7 @@ namespace PasswordManager
                 MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (!(txtPassword.Password.Length > 4))
+            if (!(txtPassword.Password.Length >= 4))
             {
                 MessageBox.Show("Your Password Should Not Be Shorter Than 4 Characters", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -110,6 +109,11 @@ namespace PasswordManager
                 MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+        }
+
+        private void btn_backhome_click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

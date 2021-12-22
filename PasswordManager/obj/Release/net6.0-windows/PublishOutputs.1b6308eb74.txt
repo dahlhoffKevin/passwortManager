@@ -1,0 +1,7 @@
+C:\Users\bcar0\Desktop\Schule\PasswortManager\PasswordManager.exe
+C:\Users\bcar0\Desktop\Schule\PasswortManager\PasswordManager.dll
+C:\Users\bcar0\Desktop\Schule\PasswortManager\PasswordManager.deps.json
+C:\Users\bcar0\Desktop\Schule\PasswortManager\PasswordManager.runtimeconfig.json
+C:\Users\bcar0\Desktop\Schule\PasswortManager\PasswordManager.pdb
+C:\Users\bcar0\Desktop\Schule\PasswortManager\MaterialDesignColors.dll
+C:\Users\bcar0\Desktop\Schule\PasswortManager\MaterialDesignThemes.Wpf.dll

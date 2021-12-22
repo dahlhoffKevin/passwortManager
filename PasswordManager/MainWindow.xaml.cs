@@ -41,7 +41,7 @@ namespace PasswordManager
             PagesNavigation.Navigate(new System.Uri("Pages/HomePage.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        private void rdSounds_Click(object sender, RoutedEventArgs e)
+        private void rdPasswords_Click(object sender, RoutedEventArgs e)
         {
             PagesNavigation.Navigate(new System.Uri("Pages/PasswordsPage.xaml", UriKind.RelativeOrAbsolute));
         }
