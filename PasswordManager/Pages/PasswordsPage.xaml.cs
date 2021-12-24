@@ -45,17 +45,16 @@ namespace PasswordManager.Pages
                         if (tmp.Substring(tmp.Length - 2) == "==" || tmp.Substring(tmp.Length - 1) == "=")
                         {
                             String decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
-                            txtPasswords.Text += "\nPassword:\n" + decrypted_string + "\n";
+                            txtPasswords.Text += "\nPassword: " + decrypted_string + "\n";
                         }
                         else
                         {
-                            txtPasswords.Text += "\nPassword Use:\n" + Line;
+                            txtPasswords.Text += "\nUse: " + Line;
                         }
                     }
                 }
             }
         }
-
         private void btn_remove_all_passwords_click(object sender, RoutedEventArgs e)
         {
             string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
