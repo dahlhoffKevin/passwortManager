@@ -42,15 +42,14 @@ namespace PasswordManager.Pages
                     {
                         String tmp = Line;
 
-                        if (tmp.Substring(tmp.Length - 2) == "==")
+                        if (tmp.Substring(tmp.Length - 2) == "==" || tmp.Substring(tmp.Length - 1) == "=")
                         {
                             String decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
-                            txtPasswords.Text += "\nPassword: " + decrypted_string;
+                            txtPasswords.Text += "\nPassword:\n" + decrypted_string + "\n";
                         }
                         else
                         {
-                            txtPasswords.Text += "\n";
-                            txtPasswords.Text += "Password Use: " + Line + "\n";
+                            txtPasswords.Text += "\nPassword Use:\n" + Line;
                         }
                     }
                 }
@@ -67,12 +66,18 @@ namespace PasswordManager.Pages
                 foreach (string filename in Directory.GetFiles(password_folder))
                 {
                     File.Delete(filename);
+                    this.NavigationService.Refresh();
                 }
             }
             else
             {
                 return;
             }
+        }
+
+        private void btn_update_list(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Refresh();
         }
     }
 }

@@ -96,7 +96,7 @@ namespace PasswordManager
                 using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
                 string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
 
-                file.WriteLine(encrypted_password + "\n" + entry_password_use);
+                file.WriteLine(entry_password_use + "\n" + encrypted_password);
                 file.Close();
 
                 txtPassword.Password = "";

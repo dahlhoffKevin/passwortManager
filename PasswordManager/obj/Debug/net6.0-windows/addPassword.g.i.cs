@@ -112,7 +112,7 @@ namespace PasswordManager {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/PasswordManager;V1.0.0.0;component/addpassword.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PasswordManager;component/addpassword.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\addPassword.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
