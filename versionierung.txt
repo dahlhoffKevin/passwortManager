@@ -1,16 +1,16 @@
 Example
-0.a.20211221
+a.1.20.21.12.21
 
 or:
-0.b.20211221
+b.2.20.21.12.21
 
 or:
-1.20211221
+3.20211221
 
 Explanation:
 
-0. / 1.   = Version 0 - infinite
-.a. / .b. = Aplha / Beta
-2021      = Year
-12        = Month
-21        = Day
+.a. / .b.       = Aplha / Beta
+.1. / .2. / .3. = Vesion of the Day
+20.21.          = Year
+.12.            = Month
+.21             = Day

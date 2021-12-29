@@ -60,7 +60,9 @@
                         Width="300"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
-                        Content="REGISTER" Click="btn_register_Click">
+                        Content="CREATE PASSWORD"
+                        Click="btn_register_Click"
+                        Cursor="Hand">
                 </Button>
 
                 <Button Margin="0 20 0 0"
@@ -71,7 +73,9 @@
                         Width="300"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
-                        Content="Back to Log in" Click="btn_back_Click" Cursor="Hand">
+                        Content="Back to Log in" 
+                        Click="btn_back_Click" 
+                        Cursor="Hand">
                 </Button>
 
             </StackPanel>
