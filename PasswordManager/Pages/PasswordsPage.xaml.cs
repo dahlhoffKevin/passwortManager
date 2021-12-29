@@ -16,6 +16,12 @@ using System.Windows.Shapes;
 
 namespace PasswordManager.Pages
 {
+    public class PasswordItem
+    {
+        public string? Use { get; set; }
+
+        public string? Password { get; set; }
+    }
     public partial class PasswordsPage : Page
     {
         public PasswordsPage()
@@ -38,20 +44,23 @@ namespace PasswordManager.Pages
                 using (StreamReader sr = new StreamReader(filename))
                 {
                     string Line;
+                    string use = "";
+                    string password = "";
                     while ((Line = sr.ReadLine()) != null)
                     {
-                        String tmp = Line;
+                        string tmp = Line;
 
                         if (tmp.Substring(tmp.Length - 2) == "==" || tmp.Substring(tmp.Length - 1) == "=")
                         {
-                            String decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
-                            txtPasswords.Text += "\nPassword: " + decrypted_string + "\n";
+                            string decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
+                            password = decrypted_string;
                         }
                         else
                         {
-                            txtPasswords.Text += "\nUse: " + Line;
+                            use = Line;
                         }
                     }
+                    ListViewPasswords.Items.Add(new PasswordItem { Use = use, Password = password });
                 }
             }
         }
@@ -65,7 +74,9 @@ namespace PasswordManager.Pages
                 foreach (string filename in Directory.GetFiles(password_folder))
                 {
                     File.Delete(filename);
-                    this.NavigationService.Refresh();
+
+                    // reloads the site
+                    NavigationService.Refresh();
                 }
             }
             else
