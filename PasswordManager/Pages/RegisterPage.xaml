@@ -23,13 +23,13 @@
                            HorizontalAlignment="Center"
                            FontSize="28"
                            FontWeight="Bold"
-                           Text="Register">
+                           Text="Setup">
                 </TextBlock>
 
                 <TextBlock FontSize="17"
                            FontWeight="SemiBold"
                            HorizontalAlignment="Center"
-                           Text="Create a Master Key">
+                           Text="Create a Master Password">
                 </TextBlock>
 
                 <PasswordBox Margin="0 20 0 0"
@@ -71,7 +71,7 @@
                         Width="300"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
-                        Content="Back to Log in" Click="btn_back_Click">
+                        Content="Back to Log in" Click="btn_back_Click" Cursor="Hand">
                 </Button>
 
             </StackPanel>

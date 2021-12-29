@@ -73,7 +73,6 @@ namespace PasswordManager.Pages
                 return;
             }
         }
-
         private void btn_update_list(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Refresh();
