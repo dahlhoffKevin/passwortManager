@@ -67,7 +67,7 @@ namespace PasswordManager.Pages
         private void btn_back_Click(object sender, RoutedEventArgs e)
         {
             Uri uri = new Uri("Pages/LoginPage.xaml", UriKind.Relative);
-            this.NavigationService.Navigate(uri);
+            NavigationService.Navigate(uri);
         }
     }
 }

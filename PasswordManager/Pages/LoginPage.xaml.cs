@@ -85,7 +85,21 @@ namespace PasswordManager.Pages
         private void btn_signup_Click(object sender, RoutedEventArgs e)
         {
             Uri uri = new Uri("Pages/RegisterPage.xaml", UriKind.Relative);
-            this.NavigationService.Navigate(uri);
+            NavigationService.Navigate(uri);
+        }
+
+        private void btn_forgot_password_Click(object sender, RoutedEventArgs e)
+        {
+            // path to user data folder
+            string master_password_file_path = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+            @"PasswordManager\userdata\master_password.yaml";
+            
+            if (System.IO.File.Exists(master_password_file_path))
+            {
+                Uri uri = new Uri("Pages/ForgotPasswordPage.xaml", UriKind.Relative);
+                NavigationService.Navigate(uri);
+            }
+
         }
     }
 }
