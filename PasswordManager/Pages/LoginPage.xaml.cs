@@ -98,6 +98,10 @@ namespace PasswordManager.Pages
             {
                 Uri uri = new Uri("Pages/ForgotPasswordPage.xaml", UriKind.Relative);
                 NavigationService.Navigate(uri);
+            } else
+            {
+                MessageBox.Show("No Master Password Created!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
         }

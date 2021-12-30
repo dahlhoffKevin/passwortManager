@@ -89,7 +89,7 @@ namespace PasswordManager
                 string new_encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(newMasterPassword);
                 using StreamWriter file = new(userdata_folder + masterpassword_file, append: false);
 
-                file.WriteLine(new_encrypted_master_password + " test223342323244534q");
+                file.WriteLine(new_encrypted_master_password);
                 file.Close();
                 MessageBox.Show("Master Password Successfully Reseted", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 
