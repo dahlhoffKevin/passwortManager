@@ -86,7 +86,13 @@ namespace PasswordManager.Pages
         }
         private void btn_update_list(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Refresh();
+            NavigationService.Refresh();
+        }
+
+        private void btn_password_generate(object sender, RoutedEventArgs e)
+        {
+            Uri uri = new Uri("Pages/GeneratePasswordPage.xaml", UriKind.Relative);
+            NavigationService.Navigate(uri);
         }
     }
 }

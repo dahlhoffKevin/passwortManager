@@ -30,13 +30,6 @@
         Official Discord:<LineBreak/>
         https://discord.gg/TM35FKFB2G<LineBreak/><LineBreak/>
         </TextBlock>
-        <TextBlock Margin="219,339,207,10"
-                   TextAlignment="Center"
-                   FontSize="20">
-            If you have any problems or questions,<LineBreak/>
-            don't hesitate to contact me on Discord:<LineBreak/>
-            <Bold>K3vin#7507</Bold>
-        </TextBlock>
     </Grid>
 
 </Page>
