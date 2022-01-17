@@ -17,9 +17,6 @@ using System.Security.Cryptography;
 
 namespace PasswordManager.Pages
 {
-    /// <summary>
-    /// Interaktionslogik für GeneratePasswordPage.xaml
-    /// </summary>
     public partial class GeneratePasswordPage : Page
     {
         public GeneratePasswordPage()
@@ -31,14 +28,13 @@ namespace PasswordManager.Pages
 
         private void btn_password_generate(object sender, RoutedEventArgs e)
         {
-            int PasswordAmount = 1;
-            if (txtPasswordLength.Text != "")
+            if (txtPasswordLength.Text == "")
             {
                 MessageBox.Show("Password Length Field Must Be Filled Out", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (checkBox_normal_characters.IsChecked != true || checkBox_special_characters.IsChecked != true || checkBox_digits.IsChecked != true)
+            if (!(checkBox_normal_characters.IsChecked == true || checkBox_special_characters.IsChecked == true || checkBox_digits.IsChecked == true))
             {
                 MessageBox.Show("At Least One Check Box Must Be Checked", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -46,44 +42,57 @@ namespace PasswordManager.Pages
 
             int PasswordLength = Convert.ToInt32(txtPasswordLength.Text.ToString());
 
+            if (PasswordLength > 256)
+            {
+                MessageBox.Show("Password Manger: 'How long should the password be?'\nUser: 'Yes!'\n\nBro Chill! I don't think anyone needs such a long password!", "WTF", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            int PasswordAmount = 1;
             string CapitalLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
             string SmallLetters = "qwertyuiopasdfghjklzxcvbnm";
             string Digits = "0123456789";
             string SpecialCharacters = "!@#$%^&*()-_=+<,>.";
             string AllChar = "";
 
-            if (checkBox_special_characters.IsChecked == true && checkBox_digits.IsChecked == true && checkBox_normal_characters.IsChecked == true)
+            // checks if all checkboxes are checked
+            if (checkBox_normal_characters.IsChecked == true && checkBox_special_characters.IsChecked == true && checkBox_digits.IsChecked == true)
             {
                 AllChar = CapitalLetters + SmallLetters + Digits + SpecialCharacters;
             }
-            if (checkBox_digits.IsChecked == true)
-            {
-                AllChar = SpecialCharacters;
-            }
-            if (checkBox_special_characters.IsChecked == true)
-            {
-                AllChar = Digits;
-            }
-            if (checkBox_normal_characters.IsChecked == true)
-            {
-                AllChar = CapitalLetters + SmallLetters;
-            }
-            if (checkBox_normal_characters.IsChecked == true && checkBox_digits.IsChecked == true)
+            // checks if normal character and digits checkboxs are checked
+            else if (checkBox_normal_characters.IsChecked == true && checkBox_digits.IsChecked == true) 
             {
                 AllChar = CapitalLetters + SmallLetters + Digits;
             }
-            if (checkBox_normal_characters.IsChecked == true && checkBox_special_characters.IsChecked == true)
+            // checks if normal characters and special character checkboxs are checked
+            else if (checkBox_normal_characters.IsChecked == true && checkBox_special_characters.IsChecked == true)
             {
                 AllChar = CapitalLetters + SmallLetters + SpecialCharacters;
             }
-            if (checkBox_digits.IsChecked == true && checkBox_special_characters.IsChecked == true)
+            // checks if digits and special characters checkboxes are checked
+            else if (checkBox_digits.IsChecked == true && checkBox_special_characters.IsChecked == true)
             {
                 AllChar = Digits + SpecialCharacters;
             }
+            // checks if the normal character checkbox is checked
+            else if (checkBox_normal_characters.IsChecked == true)
+            {
+                AllChar = CapitalLetters + SmallLetters;
+            }
+            // checks if the digits checkbox is checked
+            else if (checkBox_digits.IsChecked == true)
+            {
+                AllChar = Digits;
+            }
+            // checks if the special character checkbox is checked
+            else if (checkBox_special_characters.IsChecked == true)
+            {
+                AllChar = SpecialCharacters;
+            }
 
             string[] AllPasswords = new string[PasswordAmount];
-
-
+            
             for (int i = 0; i < PasswordAmount; i++)
             {
                 StringBuilder sb = new StringBuilder();
@@ -99,7 +108,6 @@ namespace PasswordManager.Pages
             {
                 txtGeneratedPassword.Text = singlePassword;
             }
-
         }
         private static char GenerateChar(string availableChars)
         {
@@ -111,15 +119,12 @@ namespace PasswordManager.Pages
                 c = (char)byteArray[0];
 
             } while (!availableChars.Any(x => x == c));
-
             return c;
         }
-
         private void btn_copy_to_clipboard(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void btn_back_Click(object sender, RoutedEventArgs e)
         {
             Uri uri = new Uri("Pages/PasswordsPage.xaml", UriKind.Relative);
