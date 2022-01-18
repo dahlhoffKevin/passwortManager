@@ -79,6 +79,7 @@ namespace PasswordManager.Pages
                 MessageBox.Show("Passwords Not Matching", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             Window mainWindow = new MainWindow();
             mainWindow.Show();
         }

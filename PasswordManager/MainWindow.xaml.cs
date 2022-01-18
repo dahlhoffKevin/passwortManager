@@ -10,6 +10,8 @@ namespace PasswordManager
         {
             InitializeComponent();
             PagesNavigation.Navigate(new Uri("Pages/HomePage.xaml", UriKind.RelativeOrAbsolute));
+
+            Application.Current.MainWindow.Close();
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -27,6 +29,8 @@ namespace PasswordManager
         // Page Navigation Methods
         private void rdHome_Click(object sender, RoutedEventArgs e)
         {
+            Window loginWindow = new LoginWindow();
+            loginWindow.Close();
             PagesNavigation.Navigate(new Uri("Pages/HomePage.xaml", UriKind.RelativeOrAbsolute));
         }
         private void rdPasswords_Click(object sender, RoutedEventArgs e)

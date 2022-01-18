@@ -12,7 +12,7 @@
         <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}"/>
 
         <TextBlock Margin="262,46,250,361"
-                   Text="Password Manager"
+                   Text="ITAPass"
                    TextAlignment="Center"
                    FontSize="30"
                    FontWeight="Bold"/>

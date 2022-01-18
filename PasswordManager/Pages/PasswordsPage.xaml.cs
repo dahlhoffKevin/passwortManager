@@ -134,5 +134,37 @@ namespace PasswordManager.Pages
                 }
             }
         }
+        private void btn_remove_password(object sender, RoutedEventArgs e)
+        {
+            PasswordItem selectedPassword;
+            try
+            {
+                selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please Select A Password First", "Password Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
+
+            foreach (string filename in Directory.GetFiles(password_folder))
+            {
+                if (filename.ToString() == password_folder + selectedPassword.Use + ".txt")
+                {
+                    if (MessageBox.Show("Do You Really Want To Delete This Password?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        File.Delete(filename);
+                        // reloads the site
+                        NavigationService.Refresh();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
