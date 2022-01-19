@@ -47,19 +47,16 @@ namespace PasswordManager.Pages
                     string use = "";
                     string password = "";
                     string url = "";
+
                     while ((Line = sr.ReadLine()) != null)
                     {
                         string tmp = Line;
 
                         if (tmp.Substring(tmp.Length - 2) == "==" || tmp.Substring(tmp.Length - 1) == "=")
                         {   
-                            /**
-                            string decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
-                            password = decrypted_string;
-                            */
                             password = "*********";
                         }
-                        else if (tmp.Substring(0, 5) == "https" || (tmp.Substring(0, 4) == "http")) 
+                        else if (tmp.Substring(0, 4) == "http")
                         {
                             url = Line;
                         }
