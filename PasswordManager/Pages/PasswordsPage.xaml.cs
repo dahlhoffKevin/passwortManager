@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace PasswordManager.Pages
 {
@@ -103,8 +104,9 @@ namespace PasswordManager.Pages
             PasswordItem selectedPassword;
             try
             {
+                #pragma warning disable CS8600
                 selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
-            } catch (Exception ex)
+            } catch
             {
                 MessageBox.Show("Please Select A Password First", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -114,6 +116,7 @@ namespace PasswordManager.Pages
 
             foreach (string filename in Directory.GetFiles(password_folder))
             {
+                #pragma warning disable CS8602
                 if (filename.ToString() == password_folder + selectedPassword.Use + ".txt")
                 {
                     using (StreamReader sr = new StreamReader(filename))
@@ -143,7 +146,7 @@ namespace PasswordManager.Pages
             {
                 selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Please Select A Password First", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -166,6 +169,49 @@ namespace PasswordManager.Pages
                         return;
                     }
                 }
+            }
+        }
+        void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (item != null)
+            {
+                string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
+
+                PasswordItem selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
+
+                foreach (string filename in Directory.GetFiles(password_folder))
+                {
+                    if (filename == password_folder + selectedPassword.Use + ".txt")
+                    {
+                        using (StreamReader sr = new StreamReader(filename))
+                        {
+                            string? Line;
+                            string url = "";
+
+                            while ((Line = sr.ReadLine()) != null)
+                            {
+                                string tmp = Line;
+                                if (tmp.Substring(0, 4) == "http")
+                                {
+                                    url = Line;
+
+                                    var uri = url;
+                                    var psi = new ProcessStartInfo();
+
+                                    psi.UseShellExecute = true;
+                                    psi.FileName = uri;
+
+                                    Process.Start(psi);
+                                    e.Handled = true;
+                                    Logger.WriteLog("Discord Link was clicked", "INFO");
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }

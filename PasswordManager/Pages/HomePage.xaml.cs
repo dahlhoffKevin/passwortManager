@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Controls;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace PasswordManager.Pages
 {
@@ -20,6 +9,26 @@ namespace PasswordManager.Pages
         public HomePage()
         {
             InitializeComponent();
+        }
+        private void Hyperlink_RequestNavigate_Discord(object sender, RequestNavigateEventArgs e)
+        {
+            var uri = "https://discord.gg/TM35FKFB2G";
+            var psi = new ProcessStartInfo();
+            psi.UseShellExecute = true;
+            psi.FileName = uri;
+            Process.Start(psi);
+            e.Handled = true;
+            Logger.WriteLog("Discord Link was clicked", "INFO");
+        }
+        private void Hyperlink_RequestNavigate_Github(object sender, RequestNavigateEventArgs e)
+        {
+            var uri = "https://github.com/dahlhoffKevin/passwortManager";
+            var psi = new ProcessStartInfo();
+            psi.UseShellExecute = true;
+            psi.FileName = uri;
+            Process.Start(psi);
+            e.Handled = true;
+            Logger.WriteLog("Github Link was clicked", "INFO");
         }
     }
 }
