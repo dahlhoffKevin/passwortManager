@@ -43,13 +43,14 @@ namespace PasswordManager.Pages
 
         private void btn_addpassword(object sender, RoutedEventArgs e)
         {
-            String entry_password = txtPassword.Password.ToString();
-            String entry_password_confirm = txtPasswordConfirm.Password.ToString();
-            String entry_password_use = txt_password_use.Text.ToString();
+            string entry_password = txtPassword.Password.ToString();
+            string entry_password_confirm = txtPasswordConfirm.Password.ToString();
+            string entry_password_use = txt_password_use.Text.ToString();
+            string entry_password_url = txt_password_url.Text.ToString();
             string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
                     @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
 
-            if (entry_password == "" || entry_password_confirm == "" || entry_password_use == "")
+            if (entry_password == "" || entry_password_confirm == "" || entry_password_use == "" || entry_password_url == "")
             {
                 MessageBox.Show("All Fields Must Been Filled In", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -88,12 +89,13 @@ namespace PasswordManager.Pages
                 using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
                 string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
 
-                file.WriteLine(encrypted_password + "\n" + entry_password_use);
+                file.WriteLine(encrypted_password + "\n" + entry_password_use + "\n" + entry_password_url);
                 file.Close();
 
                 txtPassword.Password = "";
                 txtPasswordConfirm.Password = "";
                 txt_password_use.Text = "";
+                txt_password_url.Text = "";
             }
             catch
             {

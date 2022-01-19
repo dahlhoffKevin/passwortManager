@@ -19,8 +19,8 @@ namespace PasswordManager.Pages
     public class PasswordItem
     {
         public string? Use { get; set; }
-
         public string? Password { get; set; }
+        public string? URL { get; set; }
     }
     public partial class PasswordsPage : Page
     {
@@ -46,6 +46,7 @@ namespace PasswordManager.Pages
                     string? Line;
                     string use = "";
                     string password = "";
+                    string url = "";
                     while ((Line = sr.ReadLine()) != null)
                     {
                         string tmp = Line;
@@ -58,12 +59,16 @@ namespace PasswordManager.Pages
                             */
                             password = "*********";
                         }
+                        else if (tmp.Substring(0, 5) == "https" || (tmp.Substring(0, 4) == "http")) 
+                        {
+                            url = Line;
+                        }
                         else
                         {
                             use = Line;
                         }
                     }
-                    ListViewPasswords.Items.Add(new PasswordItem { Use = use, Password = password });
+                    ListViewPasswords.Items.Add(new PasswordItem { Use = use, Password = password, URL = url });
                 }
             }
         }
