@@ -50,7 +50,7 @@ namespace PasswordManager.Pages
             string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
                     @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
 
-            if (entry_password == "" || entry_password_confirm == "" || entry_password_use == "" || entry_password_url == "")
+            if (entry_password == "" || entry_password_confirm == "" || entry_password_use == "")
             {
                 MessageBox.Show("All Fields Must Been Filled In", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -89,8 +89,21 @@ namespace PasswordManager.Pages
                 using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
                 string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
 
-                file.WriteLine(encrypted_password + "\n" + entry_password_use + "\n" + entry_password_url);
-                file.Close();
+                if (entry_password_url == "")
+                {
+                    file.WriteLine(encrypted_password + "\n" + entry_password_use);
+                    file.Close();
+                }
+                else
+                {
+                    if (!(entry_password_url.Substring(0, 5) == "https" || (entry_password_url.Substring(0, 4) == "http")))
+                    {
+                        MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    file.WriteLine(encrypted_password + "\n" + entry_password_use + "\n" + entry_password_url);
+                    file.Close();
+                }
 
                 txtPassword.Password = "";
                 txtPasswordConfirm.Password = "";
