@@ -94,8 +94,6 @@ namespace PasswordManager.Pages
                 txtPassword.Password = "";
                 txtPasswordConfirm.Password = "";
                 txt_password_use.Text = "";
-
-                MessageBox.Show("Password Added", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch
             {

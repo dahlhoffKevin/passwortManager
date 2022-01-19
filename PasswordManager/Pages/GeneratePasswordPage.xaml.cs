@@ -129,7 +129,6 @@ namespace PasswordManager.Pages
                 return;
             }
             Clipboard.SetText(generated_password);
-            MessageBox.Show("Password copied to clipboard", "Password Generator", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         private void btn_back_Click(object sender, RoutedEventArgs e)
         {
