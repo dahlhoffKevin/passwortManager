@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace PasswordManager.Pages
 {
-    /// <summary>
-    /// Lógica de interacción para HomePage.xaml
-    /// </summary>
     public partial class HomePage : Page
     {
         public HomePage()

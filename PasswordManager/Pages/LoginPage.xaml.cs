@@ -22,10 +22,6 @@ namespace PasswordManager.Pages
         {
             InitializeComponent();
         }
-        private void exitApp(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
         private void btn_login_Click(object sender, RoutedEventArgs e)
         {
             // path to user data folder
@@ -46,7 +42,7 @@ namespace PasswordManager.Pages
             }
             catch
             {
-                MessageBox.Show("Master Password Not Set", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Master Password Not Set", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             // the encrypted master password from file encrypted
@@ -55,15 +51,17 @@ namespace PasswordManager.Pages
             {
                 decrypted_master_password_in_file = EncryptionHelper.EncryptionHelper.Decrypt(encrypted_master_password);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Could Not Decrypt Master Password", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could Not Decrypt Master Password", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog(ex.ToString(), "ERROR");
+                return;
             }
 
             // checks if the passwords are machting
             if (master_password_entry == "")
             {
-                MessageBox.Show("All Fields Must Been Filled In", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("All Fields Must Been Filled In", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -76,17 +74,19 @@ namespace PasswordManager.Pages
             // checks if the passwords are not matching
             if (!(master_password_entry == decrypted_master_password_in_file))
             {
-                MessageBox.Show("Passwords Not Matching", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Passwords Not Matching", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             Window mainWindow = new MainWindow();
             mainWindow.Show();
+            Logger.WriteLog("Switched to Main Window", "INFO");
         }
         private void btn_signup_Click(object sender, RoutedEventArgs e)
         {
             Uri uri = new Uri("Pages/RegisterPage.xaml", UriKind.Relative);
             NavigationService.Navigate(uri);
+            Logger.WriteLog("Switched to Register Page", "INFO");
         }
 
         private void btn_forgot_password_Click(object sender, RoutedEventArgs e)
@@ -99,9 +99,10 @@ namespace PasswordManager.Pages
             {
                 Uri uri = new Uri("Pages/ForgotPasswordPage.xaml", UriKind.Relative);
                 NavigationService.Navigate(uri);
+                Logger.WriteLog("Switched to Forgot Password Page", "INFO");
             } else
             {
-                MessageBox.Show("No Master Password Created!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No Master Password Created!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

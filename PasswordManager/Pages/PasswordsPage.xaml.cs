@@ -74,7 +74,7 @@ namespace PasswordManager.Pages
             string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
                     @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
 
-            if (MessageBox.Show("Do You Really Want To Delete All Your Passwords?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Do You Really Want To Delete All Your Passwords?", "ITAPass", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 foreach (string filename in Directory.GetFiles(password_folder))
                 {
@@ -106,7 +106,7 @@ namespace PasswordManager.Pages
                 selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
             } catch (Exception ex)
             {
-                MessageBox.Show("Please Select A Password First", "Password Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please Select A Password First", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
@@ -129,7 +129,7 @@ namespace PasswordManager.Pages
                                 string decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
                                 password = decrypted_string;
                                 Clipboard.SetText(password);
-                                MessageBox.Show("Password copied to clipboard", "Password Generator", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show("Password copied to clipboard", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                         }
                     }
@@ -145,7 +145,7 @@ namespace PasswordManager.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Please Select A Password First", "Password Manager", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please Select A Password First", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
@@ -155,7 +155,7 @@ namespace PasswordManager.Pages
             {
                 if (filename.ToString() == password_folder + selectedPassword.Use + ".txt")
                 {
-                    if (MessageBox.Show("Do You Really Want To Delete This Password?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Do You Really Want To Delete This Password?", "ITAPass", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         File.Delete(filename);
                         // reloads the site

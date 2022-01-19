@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PasswordManager"
              StartupUri="LoginWindow.xaml"
-             Startup="startup_check_files">
+             Startup="startup_check_folders_and_files">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

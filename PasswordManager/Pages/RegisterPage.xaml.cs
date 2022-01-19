@@ -32,7 +32,7 @@ namespace PasswordManager.Pages
 
             if (!(entry_master_password == entry_master_password_repeat))
             {
-                MessageBox.Show("Passwords not machting!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Passwords not machting!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -47,27 +47,28 @@ namespace PasswordManager.Pages
 
                     file.WriteLine(encrypted_master_password);
                     file.Close();
-                    MessageBox.Show("Master Password created", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Master Password created", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     txtMasterPassword.Password = "";
                     txtMasterPasswordRepeat.Password = "";
                 }
                 else
                 {
-                    MessageBox.Show("Master Password already exists!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Master Password already exists!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ups. An Error occured:\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ups. An Error occured:\n" + ex, "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 File.Delete(userdata_folder + masterpassword_file);
             }
 
         }
         private void btn_back_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             Uri uri = new Uri("Pages/LoginPage.xaml", UriKind.Relative);
             NavigationService.Navigate(uri);
+            Logger.WriteLog("Switched Back To Login Page", "INFO");
         }
     }
 }

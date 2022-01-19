@@ -27,6 +27,7 @@ namespace PasswordManager
         {
             Uri uri = new Uri("Pages/LoginPage.xaml", UriKind.Relative);
             NavigationService.Navigate(uri);
+            Logger.WriteLog("Switched Back To Login Page", "INFO");
         }
         private void btn_reset_password_Click(object sender, RoutedEventArgs e)
         {
@@ -46,7 +47,7 @@ namespace PasswordManager
 
             if (oldMasterPassword == "" || newMasterPassword == "" || newMasterPasswordRepeate == "")
             {
-                MessageBox.Show("All Fields Musst Been Filled In!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("All Fields Musst Been Filled In!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -58,7 +59,9 @@ namespace PasswordManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Could Not Open Master Password File:\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could Not Open Master Password File\nSee The Logs For More Information", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog(ex.ToString(), "ERROR");
+                return;
             }
 
             // the encrypted master password from file encrypted
@@ -69,18 +72,20 @@ namespace PasswordManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Could Not Decrypt Master Password:\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could Not Decrypt Master Password\nSee The Logs For More Information", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog(ex.ToString(), "ERROR");
+                return;
             }
 
             if (oldMasterPassword != decrypted_master_password)
             {
-                MessageBox.Show("Incorrect Old Master Password!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Incorrect Old Master Password!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (newMasterPassword != newMasterPasswordRepeate)
             {
-                MessageBox.Show("New Passwords Are Not Matching!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("New Passwords Are Not Matching!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -91,11 +96,12 @@ namespace PasswordManager
 
                 file.WriteLine(new_encrypted_master_password);
                 file.Close();
-                MessageBox.Show("Master Password Successfully Reseted", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Master Password Successfully Reseted", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
                 
             } catch (Exception ex)
             {
-                MessageBox.Show("Ops. An Error Occurred:\n" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ops. An Error Occurred\nSee The Logs For More Information", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog(ex.ToString(), "ERROR");
                 return;
             }
 

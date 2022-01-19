@@ -10,7 +10,6 @@ namespace PasswordManager
         {
             InitializeComponent();
             PagesNavigation.Navigate(new Uri("Pages/HomePage.xaml", UriKind.RelativeOrAbsolute));
-
             Application.Current.MainWindow.Close();
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -20,6 +19,7 @@ namespace PasswordManager
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            Logger.WriteLog("Application Shutdown", "INFO");
             Application.Current.Shutdown();
         }
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
@@ -29,21 +29,13 @@ namespace PasswordManager
         // Page Navigation Methods
         private void rdHome_Click(object sender, RoutedEventArgs e)
         {
-            Window loginWindow = new LoginWindow();
-            loginWindow.Close();
             PagesNavigation.Navigate(new Uri("Pages/HomePage.xaml", UriKind.RelativeOrAbsolute));
+            Logger.WriteLog("Switched to Home Page", "INFO");
         }
         private void rdPasswords_Click(object sender, RoutedEventArgs e)
         {
             PagesNavigation.Navigate(new Uri("Pages/PasswordsPage.xaml", UriKind.RelativeOrAbsolute));
-        }
-        private void rdNotes_Click(object sender, RoutedEventArgs e)
-        {
-            PagesNavigation.Navigate(new Uri("Pages/NotesPage.xaml", UriKind.RelativeOrAbsolute));
-        }
-        private void rdPayment_Click(object sender, RoutedEventArgs e)
-        {
-            PagesNavigation.Navigate(new Uri("Pages/PaymentPage.xaml", UriKind.RelativeOrAbsolute));
+            Logger.WriteLog("Switched to Password Page", "INFO");
         }
     }
 }

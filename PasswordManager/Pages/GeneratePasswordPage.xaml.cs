@@ -29,13 +29,13 @@ namespace PasswordManager.Pages
         {
             if (txtPasswordLength.Text == "")
             {
-                MessageBox.Show("Password Length Field Must Be Filled Out", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Password Length Field Must Be Filled Out", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (!(checkBox_normal_characters.IsChecked == true || checkBox_special_characters.IsChecked == true || checkBox_digits.IsChecked == true))
             {
-                MessageBox.Show("At Least One Check Box Must Be Checked", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("At Least One Check Box Must Be Checked", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -125,7 +125,7 @@ namespace PasswordManager.Pages
             string generated_password = txtGeneratedPassword.Text;
             if (generated_password == "")
             {
-                MessageBox.Show("Nothing To Copie", "Password Generator", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Nothing To Copie", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             Clipboard.SetText(generated_password);
