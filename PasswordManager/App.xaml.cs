@@ -24,23 +24,6 @@ namespace PasswordManager
 
         void startup_check_folders_and_files(object sender, StartupEventArgs e)
         {
-            // Checking all Files
-            try
-            {
-                if (File.Exists(log_file_path))
-                {
-                    return;
-                }
-                var log_file = File.Create(log_file_path);
-                log_file.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ops An Error Occured:\n{ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Current.Shutdown();
-            }
-
-
             /**
              * This Method checks if all neccessary Folders and Files exists
              */
@@ -74,6 +57,21 @@ namespace PasswordManager
                 Console.WriteLine("an error occured: " + ex.ToString());
             }
 
+            // Checking all Files
+            try
+            {
+                if (File.Exists(log_file_path))
+                {
+                    return;
+                }
+                var log_file = File.Create(log_file_path);
+                log_file.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ops An Error Occured:\n{ex}", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                Current.Shutdown();
+            }
         }
     }
 }
