@@ -40,7 +40,6 @@ namespace PasswordManager.Pages
             }
             return true;
         }
-
         private void btn_addpassword(object sender, RoutedEventArgs e)
         {
             string entry_password = txtPassword.Password.ToString();
@@ -84,26 +83,34 @@ namespace PasswordManager.Pages
                     return;
                 }
 
-                // Creates a File in Folder Passwords with the name of the entered Password Use
-                // Dispose = Closes the Thread where the File is used to make File useable again
-                File.Create(password_folder + entry_password_use + ".txt").Dispose();
-                using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
-                string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
-
                 if (entry_password_url == "")
                 {
+                    File.Create(password_folder + entry_password_use + ".txt").Dispose();
+                    using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
+                    string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
                     file.WriteLine(encrypted_password + "\n" + entry_password_use);
                     file.Close();
                 }
                 else
                 {
-                    if (!(entry_password_url.Substring(0, 5) == "https" || (entry_password_url.Substring(0, 4) == "http")))
+                    try
+                    {
+                        if (!(entry_password_url.Substring(0, 5) == "https" || entry_password_url.Substring(0, 4) == "http"))
+                        {
+                            MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                    } catch
                     {
                         MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+                    File.Create(password_folder + entry_password_use + ".txt").Dispose();
+                    using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
+                    string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
                     file.WriteLine(encrypted_password + "\n" + entry_password_use + "\n" + entry_password_url);
                     file.Close();
+
                 }
 
                 txtPassword.Password = "";

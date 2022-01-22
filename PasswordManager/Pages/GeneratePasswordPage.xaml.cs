@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Security.Cryptography;
+using System.Configuration;
 
 namespace PasswordManager.Pages
 {
@@ -41,7 +34,7 @@ namespace PasswordManager.Pages
 
             int PasswordLength = Convert.ToInt32(txtPasswordLength.Text.ToString());
 
-            if (PasswordLength > 256)
+            if (PasswordLength > 64)
             {
                 MessageBox.Show("Password Manger: 'How long should the password be?'\nUser: 'Yes!'\n\nBro Chill! I don't think anyone needs such a long password!", "WTF", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -125,7 +118,7 @@ namespace PasswordManager.Pages
             string generated_password = txtGeneratedPassword.Text;
             if (generated_password == "")
             {
-                MessageBox.Show("Nothing To Copie", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Nothing To Copy", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             Clipboard.SetText(generated_password);
