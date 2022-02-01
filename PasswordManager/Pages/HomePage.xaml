@@ -10,13 +10,11 @@
 
     <Grid>
         <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}"/>
-
         <TextBlock Margin="262,46,250,361"
                    Text="ITAPass"
                    TextAlignment="Center"
                    FontSize="30"
                    FontWeight="Bold"/>
-
         <TextBlock Margin="250,100,250,135" 
                    Width="300"
                    TextWrapping="NoWrap"
@@ -24,12 +22,11 @@
                    FontSize="20"
         >
         Version:<LineBreak/>
-        0.1.39-alpha<LineBreak/><LineBreak/>
+        0.1.40-alpha<LineBreak/><LineBreak/>
         Github:<LineBreak/>
         <LineBreak/><LineBreak/>
         Official Discord:<LineBreak/>
         </TextBlock>
-        
         <TextBlock Margin="168,203,168,217"
                    TextWrapping="NoWrap"
                    TextAlignment="Center"
@@ -47,5 +44,4 @@
             </Hyperlink>
         </TextBlock>
     </Grid>
-
 </Page>

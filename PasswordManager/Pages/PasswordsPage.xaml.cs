@@ -205,7 +205,7 @@ namespace PasswordManager.Pages
 
                                     Process.Start(psi);
                                     e.Handled = true;
-                                    Logger.WriteLog("Discord Link was clicked", "INFO");
+                                    Logger.WriteLog("Opend Weblink: " + url, "INFO");
                                 }
                             }
                         }
