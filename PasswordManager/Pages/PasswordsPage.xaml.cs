@@ -1,19 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace PasswordManager.Pages
 {
@@ -25,6 +17,19 @@ namespace PasswordManager.Pages
     }
     public partial class PasswordsPage : Page
     {
+        #pragma warning disable CS8602
+        public string pwd_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                ConfigurationManager.AppSettings["pwd_folder_path"].ToString();
+
+        #pragma warning disable CS8602
+        public string pwd_file_ending = ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
+
+        #pragma warning disable CS8602
+        public string pwd_replacement = ConfigurationManager.AppSettings["pwd_replacement"].ToString();
+
+        #pragma warning disable CS8602
+        public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
+
         public PasswordsPage()
         {
             InitializeComponent();
@@ -37,10 +42,7 @@ namespace PasswordManager.Pages
         }
         private void display_passwords()
         {
-            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
-
-            foreach (string filename in Directory.GetFiles(password_folder))
+            foreach (string filename in Directory.GetFiles(pwd_folder))
             {
                 using (StreamReader sr = new StreamReader(filename))
                 {
@@ -55,7 +57,7 @@ namespace PasswordManager.Pages
 
                         if (tmp.Substring(tmp.Length - 2) == "==" || tmp.Substring(tmp.Length - 1) == "=")
                         {   
-                            password = "*********";
+                            password = pwd_replacement;
                         }
                         else if (tmp.Substring(0, 4) == "http")
                         {
@@ -72,12 +74,9 @@ namespace PasswordManager.Pages
         }
         private void btn_remove_all_passwords_click(object sender, RoutedEventArgs e)
         {
-            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
-
-            if (MessageBox.Show("Do You Really Want To Delete All Your Passwords?", "ITAPass", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Do You Really Want To Delete All Your Passwords?", app_name, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                foreach (string filename in Directory.GetFiles(password_folder))
+                foreach (string filename in Directory.GetFiles(pwd_folder))
                 {
                     File.Delete(filename);
 
@@ -108,16 +107,14 @@ namespace PasswordManager.Pages
                 selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
             } catch
             {
-                MessageBox.Show("Please Select A Password First", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please Select A Password First", app_name, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
-
-            foreach (string filename in Directory.GetFiles(password_folder))
+            
+            foreach (string filename in Directory.GetFiles(pwd_folder))
             {
                 #pragma warning disable CS8602
-                if (filename.ToString() == password_folder + selectedPassword.Use + ".txt")
+                if (filename.ToString() == pwd_folder + selectedPassword.Use + pwd_file_ending)
                 {
                     using (StreamReader sr = new StreamReader(filename))
                     {
@@ -132,7 +129,7 @@ namespace PasswordManager.Pages
                                 string decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
                                 password = decrypted_string;
                                 Clipboard.SetText(password);
-                                MessageBox.Show("Password copied to clipboard", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show("Password copied to clipboard", app_name, MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                         }
                     }
@@ -148,17 +145,15 @@ namespace PasswordManager.Pages
             }
             catch
             {
-                MessageBox.Show("Please Select A Password First", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please Select A Password First", app_name, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
 
-            foreach (string filename in Directory.GetFiles(password_folder))
+            foreach (string filename in Directory.GetFiles(pwd_folder))
             {
-                if (filename.ToString() == password_folder + selectedPassword.Use + ".txt")
+                if (filename.ToString() == pwd_folder + selectedPassword.Use + pwd_file_ending)
                 {
-                    if (MessageBox.Show("Do You Really Want To Delete This Password?", "ITAPass", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Do You Really Want To Delete This Password?", app_name, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         File.Delete(filename);
                         // reloads the site
@@ -176,14 +171,11 @@ namespace PasswordManager.Pages
             var item = ((FrameworkElement)e.OriginalSource).DataContext;
             if (item != null)
             {
-                string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
-
                 PasswordItem selectedPassword = (PasswordItem)ListViewPasswords.SelectedItems[0];
 
-                foreach (string filename in Directory.GetFiles(password_folder))
+                foreach (string filename in Directory.GetFiles(pwd_folder))
                 {
-                    if (filename == password_folder + selectedPassword.Use + ".txt")
+                    if (filename == pwd_folder + selectedPassword.Use + pwd_file_ending)
                     {
                         using (StreamReader sr = new StreamReader(filename))
                         {

@@ -16,7 +16,8 @@ namespace PasswordManager.Pages
             InitializeComponent();
         }
 
-        static RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+        #pragma warning disable SYSLIB0023
+        static RNGCryptoServiceProvider provider = new();
 
         private void btn_password_generate(object sender, RoutedEventArgs e)
         {
