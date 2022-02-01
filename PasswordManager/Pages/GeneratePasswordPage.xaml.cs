@@ -41,7 +41,6 @@ namespace PasswordManager.Pages
                 return;
             }
 
-            int PasswordAmount = 1;
             string CapitalLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
             string SmallLetters = "qwertyuiopasdfghjklzxcvbnm";
             string Digits = "0123456789";
@@ -84,23 +83,17 @@ namespace PasswordManager.Pages
                 AllChar = SpecialCharacters;
             }
 
-            string[] AllPasswords = new string[PasswordAmount];
+            string Password;
             
-            for (int i = 0; i < PasswordAmount; i++)
+            StringBuilder sb = new StringBuilder();
+            for (int n = 0; n < PasswordLength; n++)
             {
-                StringBuilder sb = new StringBuilder();
-                for (int n = 0; n < PasswordLength; n++)
-                {
-                    sb = sb.Append(GenerateChar(AllChar));
-                }
-
-                AllPasswords[i] = sb.ToString();
+                sb = sb.Append(GenerateChar(AllChar));
             }
 
-            foreach (string singlePassword in AllPasswords)
-            {
-                txtGeneratedPassword.Text = singlePassword;
-            }
+            Password = sb.ToString();
+            txtGeneratedPassword.Text = Password;
+            
         }
         private static char GenerateChar(string availableChars)
         {
