@@ -1,23 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
+using System.Configuration;
 
 namespace PasswordManager.Pages
 {
     public partial class RegisterPage : Page
     {
+        #pragma warning disable CS8602
+        public string pwd_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                ConfigurationManager.AppSettings["pwd_folder_path"].ToString();
+
+        #pragma warning disable CS8602
+        public string pwd_file_ending = ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
+
+        #pragma warning disable CS8602
+        public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
+
+        #pragma warning disable CS8602
+        public string userdata_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) + 
+            ConfigurationManager.AppSettings["userdata_folder_path"].ToString();
         public RegisterPage()
         {
             InitializeComponent();
@@ -26,13 +30,14 @@ namespace PasswordManager.Pages
         {
             string entry_master_password = txtMasterPassword.Password.ToString();
             string entry_master_password_repeat = txtMasterPasswordRepeat.Password.ToString();
-            string userdata_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\"; // C:\PasswordManager\userdata\
-            string masterpassword_file = "master_password.yaml";
+            string userdata_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                    @"PasswordManager\userdata\";
+            string masterpassword_file = ConfigurationManager.AppSettings["master_password_file"].ToString() + 
+                pwd_file_ending;
 
             if (!(entry_master_password == entry_master_password_repeat))
             {
-                MessageBox.Show("Passwords not machting!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Passwords not machting!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -47,19 +52,19 @@ namespace PasswordManager.Pages
 
                     file.WriteLine(encrypted_master_password);
                     file.Close();
-                    MessageBox.Show("Master Password created", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Master Password created", app_name, MessageBoxButton.OK, MessageBoxImage.Information);
 
                     txtMasterPassword.Password = "";
                     txtMasterPasswordRepeat.Password = "";
                 }
                 else
                 {
-                    MessageBox.Show("Master Password already exists!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Master Password already exists!", app_name, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ups. An Error occured:\n" + ex, "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ups. An Error occured:\n" + ex, app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 File.Delete(userdata_folder + masterpassword_file);
             }
 

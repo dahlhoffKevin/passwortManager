@@ -11,6 +11,10 @@ namespace PasswordManager.Pages
 {
     public partial class GeneratePasswordPage : Page
     {
+        #pragma warning disable CS8602
+        public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
+        public int max_pwd_length = Convert.ToInt32(ConfigurationManager.AppSettings["max_pwd_length"].ToString());
+
         public GeneratePasswordPage()
         {
             InitializeComponent();
@@ -18,32 +22,31 @@ namespace PasswordManager.Pages
 
         #pragma warning disable SYSLIB0023
         static RNGCryptoServiceProvider provider = new();
-
         private void btn_password_generate(object sender, RoutedEventArgs e)
         {
             if (txtPasswordLength.Text == "")
             {
-                MessageBox.Show("Password Length Field Must Be Filled Out", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Password Length Field Must Be Filled Out", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (!(checkBox_normal_characters.IsChecked == true || checkBox_special_characters.IsChecked == true || checkBox_digits.IsChecked == true))
             {
-                MessageBox.Show("At Least One Check Box Must Be Checked", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("At Least One Check Box Must Be Checked", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             int PasswordLength = Convert.ToInt32(txtPasswordLength.Text.ToString());
 
-            if (PasswordLength > 64)
+            if (PasswordLength > max_pwd_length)
             {
                 MessageBox.Show("Password Manger: 'How long should the password be?'\nUser: 'Yes!'\n\nBro Chill! I don't think anyone needs such a long password!", "WTF", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
-            string CapitalLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
-            string SmallLetters = "qwertyuiopasdfghjklzxcvbnm";
-            string Digits = "0123456789";
+            string CapitalLetters = ConfigurationManager.AppSettings["capital_letters"].ToString();
+            string SmallLetters = ConfigurationManager.AppSettings["small_letters"].ToString(); ;
+            string Digits = ConfigurationManager.AppSettings["digits"].ToString();
             string SpecialCharacters = "!@#$%^&*()-_=+<,>.";
             string AllChar = "";
 
@@ -112,7 +115,7 @@ namespace PasswordManager.Pages
             string generated_password = txtGeneratedPassword.Text;
             if (generated_password == "")
             {
-                MessageBox.Show("Nothing To Copy", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Nothing To Copy", app_name, MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             Clipboard.SetText(generated_password);

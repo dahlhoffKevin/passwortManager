@@ -18,7 +18,7 @@ namespace PasswordManager.Pages
             psi.FileName = uri;
             Process.Start(psi);
             e.Handled = true;
-            Logger.WriteLog("Discord Link was clicked", "INFO");
+            Logger.WriteLog("Clicked Discord Link", "INFO");
         }
         private void Hyperlink_RequestNavigate_Github(object sender, RequestNavigateEventArgs e)
         {
@@ -28,7 +28,7 @@ namespace PasswordManager.Pages
             psi.FileName = uri;
             Process.Start(psi);
             e.Handled = true;
-            Logger.WriteLog("Github Link was clicked", "INFO");
+            Logger.WriteLog("Clicked Github Link", "INFO");
         }
     }
 }

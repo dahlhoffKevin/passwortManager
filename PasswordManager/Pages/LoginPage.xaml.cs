@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PasswordManager;
+using System.Configuration;
+using System.IO;
 
 namespace PasswordManager.Pages
 {
     public partial class LoginPage : Page
     {
+        #pragma warning disable CS8602
+        string masterpassword_file_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) + 
+                                     ConfigurationManager.AppSettings["pwd_manager_folder"].ToString() + 
+                                     ConfigurationManager.AppSettings["master_password_file"].ToString() +
+                                     ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
+
+        string masterpassword_file = ConfigurationManager.AppSettings["master_password_file"].ToString() +
+                                     ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
+
+        string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
+
         public LoginPage()
         {
             InitializeComponent();
@@ -25,11 +27,8 @@ namespace PasswordManager.Pages
         private void btn_login_Click(object sender, RoutedEventArgs e)
         {
             // path to user data folder
-            string userdata_folder_path = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+            string userdata_folder_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
             @"PasswordManager\userdata\";
-
-            // name of the file which contains the master password
-            string masterpassword_file = "master_password.yaml";
 
             // the original master password that was enterd
             string master_password_entry = txtMasterPassword.Password.ToString();
@@ -38,11 +37,11 @@ namespace PasswordManager.Pages
             string encrypted_master_password = "";
             try
             {
-                encrypted_master_password = System.IO.File.ReadAllText(userdata_folder_path + masterpassword_file);
+                encrypted_master_password = File.ReadAllText(userdata_folder_path + masterpassword_file);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Master Password Not Set", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), app_name, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             // the encrypted master password from file encrypted
@@ -53,7 +52,7 @@ namespace PasswordManager.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Could Not Decrypt Master Password", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could Not Decrypt Master Password", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 Logger.WriteLog(ex.ToString(), "ERROR");
                 return;
             }
@@ -61,7 +60,7 @@ namespace PasswordManager.Pages
             // checks if the passwords are machting
             if (master_password_entry == "")
             {
-                MessageBox.Show("All Fields Must Been Filled In", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("All Fields Must Been Filled In", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -74,7 +73,7 @@ namespace PasswordManager.Pages
             // checks if the passwords are not matching
             if (!(master_password_entry == decrypted_master_password_in_file))
             {
-                MessageBox.Show("Passwords Not Matching", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Passwords Not Matching", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -90,19 +89,15 @@ namespace PasswordManager.Pages
         }
 
         private void btn_forgot_password_Click(object sender, RoutedEventArgs e)
-        {
-            // path to user data folder
-            string master_password_file_path = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-            @"PasswordManager\userdata\master_password.yaml";
-            
-            if (System.IO.File.Exists(master_password_file_path))
+        {   
+            if (File.Exists(masterpassword_file_path))
             {
                 Uri uri = new Uri("Pages/ForgotPasswordPage.xaml", UriKind.Relative);
                 NavigationService.Navigate(uri);
                 Logger.WriteLog("Switched to Forgot Password Page", "INFO");
             } else
             {
-                MessageBox.Show("No Master Password Created!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No Master Password Created!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

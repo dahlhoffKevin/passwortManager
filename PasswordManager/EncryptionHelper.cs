@@ -29,7 +29,7 @@ namespace EncryptionHelper
 			Aes aes = Aes.Create();
 			aes.Mode = CipherMode.CBC;
 			aes.Padding = PaddingMode.PKCS7;
-			aes.KeySize = 128;
+			aes.KeySize = 256;
 			aes.Key = keyBytes;
 			aes.IV = keyBytes;
 

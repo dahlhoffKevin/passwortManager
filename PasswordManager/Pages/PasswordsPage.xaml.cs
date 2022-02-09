@@ -82,6 +82,8 @@ namespace PasswordManager.Pages
 
                     // reloads the site
                     NavigationService.Refresh();
+                    Logger.WriteLog("Deleted All Passwords", "INFO");
+
                 }
             }
             else
@@ -158,6 +160,7 @@ namespace PasswordManager.Pages
                         File.Delete(filename);
                         // reloads the site
                         NavigationService.Refresh();
+                        Logger.WriteLog("Deleted Password: " + selectedPassword.Use, "INFO");
                     }
                     else
                     {

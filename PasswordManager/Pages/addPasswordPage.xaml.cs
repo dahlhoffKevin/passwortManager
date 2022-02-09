@@ -1,40 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
+using System.Configuration;
 
 namespace PasswordManager.Pages
 {
     public partial class addPasswordPage : Page
     {
+        #pragma warning disable CS8602
+        public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
+
+        public string userdata_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                    ConfigurationManager.AppSettings["userdata_folder_path"].ToString();
+        public string password_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                ConfigurationManager.AppSettings["pwd_folder_path"].ToString();
+        public string file_ending = ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
+
         public addPasswordPage()
         {
             InitializeComponent();
         }
         private static bool check_folders()
         {
-            string userdata_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\"; // C:\PasswordManager\userdata\
-            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords"; // C:\PasswordManager\userdata\passwords
-
-            if (!Directory.Exists(userdata_folder))
+            if (!Directory.Exists(Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                    ConfigurationManager.AppSettings["userdata_folder_path"].ToString()))
             {
                 return false;
             }
 
-            if (!Directory.Exists(password_folder))
+            if (!Directory.Exists(Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                ConfigurationManager.AppSettings["pwd_folder_path"].ToString()))
             {
                 return false;
             }
@@ -46,47 +43,45 @@ namespace PasswordManager.Pages
             string entry_password_confirm = txtPasswordConfirm.Password.ToString();
             string entry_password_use = txt_password_use.Text.ToString();
             string entry_password_url = txt_password_url.Text.ToString();
-            string password_folder = System.IO.Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\passwords\"; // C:\PasswordManager\userdata\
 
             if (entry_password == "" || entry_password_confirm == "" || entry_password_use == "")
             {
-                MessageBox.Show("All Fields Must Been Filled In", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("All Fields Must Been Filled In", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (!(entry_password == entry_password_confirm))
             {
-                MessageBox.Show("Passwords Are Not Machting", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Passwords Are Not Machting", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (!check_folders())
             {
-                MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application\nSee The Logs For More Information", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application\nSee The Logs For More Information", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 Logger.WriteLog("Not All Folders Were Created", "ERROR");
                 return;
             }
             if (!(txtPassword.Password.Length >= 4))
             {
-                MessageBox.Show("Your Password Should Not Be Shorter Than 4 Characters", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Your Password Should Not Be Shorter Than 4 Characters", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (!(txt_password_use.Text.Length > 2))
             {
-                MessageBox.Show("The Password Use Is Too Short", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("The Password Use Is Too Short", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             try
             {
-                if (File.Exists(password_folder + entry_password_use + ".txt"))
+                if (File.Exists(password_folder + entry_password_use + file_ending))
                 {
-                    MessageBox.Show("Password Already Exists", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Password Already Exists", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 if (entry_password_url == "")
                 {
-                    File.Create(password_folder + entry_password_use + ".txt").Dispose();
-                    using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
+                    File.Create(password_folder + entry_password_use + file_ending).Dispose();
+                    using StreamWriter file = new(password_folder + entry_password_use + ConfigurationManager.AppSettings["pwd_file_ending"].ToString(), append: true);
                     string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
                     file.WriteLine(encrypted_password + "\n" + entry_password_use);
                     file.Close();
@@ -97,16 +92,16 @@ namespace PasswordManager.Pages
                     {
                         if (!(entry_password_url.Substring(0, 5) == "https" || entry_password_url.Substring(0, 4) == "http"))
                         {
-                            MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
                     } catch
                     {
-                        MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    File.Create(password_folder + entry_password_use + ".txt").Dispose();
-                    using StreamWriter file = new(password_folder + entry_password_use + ".txt", append: true);
+                    File.Create(password_folder + entry_password_use + file_ending).Dispose();
+                    using StreamWriter file = new(password_folder + entry_password_use + file_ending, append: true);
                     string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
                     file.WriteLine(encrypted_password + "\n" + entry_password_use + "\n" + entry_password_url);
                     file.Close();
@@ -120,7 +115,7 @@ namespace PasswordManager.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application\nSee The Logs For More Information", "ITAPass", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application\nSee The Logs For More Information", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 Logger.WriteLog(ex.ToString(), "ERROR");
                 return;
             }
