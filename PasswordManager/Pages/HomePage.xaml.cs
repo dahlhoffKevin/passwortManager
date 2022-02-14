@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Diagnostics;
+using PasswordManagerLogger;
 
 namespace PasswordManager.Pages
 {

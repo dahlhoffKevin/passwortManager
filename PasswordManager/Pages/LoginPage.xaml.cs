@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Configuration;
 using System.IO;
+using PasswordManagerLogger;
 
 namespace PasswordManager.Pages
 {
@@ -11,9 +12,10 @@ namespace PasswordManager.Pages
     {
         #pragma warning disable CS8602
         string masterpassword_file_path = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) + 
-                                     ConfigurationManager.AppSettings["pwd_manager_folder"].ToString() + 
-                                     ConfigurationManager.AppSettings["master_password_file"].ToString() +
-                                     ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
+                                          ConfigurationManager.AppSettings["pwd_manager_folder"].ToString() +
+                                          ConfigurationManager.AppSettings["userdata_folder_path"].ToString() +
+                                          ConfigurationManager.AppSettings["master_password_file"].ToString() +
+                                          ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
 
         string masterpassword_file = ConfigurationManager.AppSettings["master_password_file"].ToString() +
                                      ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
@@ -39,9 +41,9 @@ namespace PasswordManager.Pages
             {
                 encrypted_master_password = File.ReadAllText(userdata_folder_path + masterpassword_file);
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.ToString(), app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Master Password not set", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             // the encrypted master password from file encrypted
@@ -97,7 +99,7 @@ namespace PasswordManager.Pages
                 Logger.WriteLog("Switched to Forgot Password Page", "INFO");
             } else
             {
-                MessageBox.Show("No Master Password Created!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No Master Password Created!\n" + masterpassword_file_path, app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

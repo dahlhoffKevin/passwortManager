@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.IO;
 using System.Configuration;
+using PasswordManagerLogger;
 
 namespace PasswordManager.Pages
 {

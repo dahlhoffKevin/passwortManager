@@ -4,14 +4,18 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.IO;
 using System.Configuration;
+using PasswordManagerLogger;
 
 namespace PasswordManager
 {
     public partial class ForgotPasswordPage : Page
     {
         #pragma warning disable CS8602
-        public string userdata_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                ConfigurationManager.AppSettings["userdata_folder_path"].ToString();
+        string masterpassword_file = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                                          ConfigurationManager.AppSettings["pwd_manager_folder"].ToString() +
+                                          ConfigurationManager.AppSettings["userdata_folder_path"].ToString() +
+                                          ConfigurationManager.AppSettings["master_password_file"].ToString() +
+                                          ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
 
         #pragma warning disable CS8602
         public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
@@ -34,8 +38,6 @@ namespace PasswordManager
 
             #pragma warning disable CS8602
             // name of the file which contains the master password
-            string masterpassword_file = ConfigurationManager.AppSettings["master_password_file"].ToString() + 
-                                         ConfigurationManager.AppSettings["master_password_file_ending"].ToString();
 
             if (oldMasterPassword == "" || newMasterPassword == "" || newMasterPasswordRepeate == "")
             {
@@ -47,7 +49,7 @@ namespace PasswordManager
             string encrypted_master_password;
             try
             {
-                encrypted_master_password = File.ReadAllText(userdata_folder + masterpassword_file);
+                encrypted_master_password = File.ReadAllText(masterpassword_file);
             }
             catch (Exception ex)
             {
@@ -84,7 +86,7 @@ namespace PasswordManager
             try
             {
                 string new_encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(newMasterPassword);
-                using StreamWriter file = new(userdata_folder + masterpassword_file, append: false);
+                using StreamWriter file = new(masterpassword_file, append: false);
 
                 file.WriteLine(new_encrypted_master_password);
                 file.Close();
