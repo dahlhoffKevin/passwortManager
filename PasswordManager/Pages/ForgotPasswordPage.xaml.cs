@@ -62,7 +62,7 @@ namespace PasswordManager
             string decrypted_master_password;
             try
             {
-                decrypted_master_password = EncryptionHelper.EncryptionHelper.Decrypt(encrypted_master_password);
+                decrypted_master_password = EncryptionHelper.EncryptionHelper.Decrypt(encrypted_master_password, false);
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace PasswordManager
 
             try
             {
-                string new_encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(newMasterPassword);
+                string new_encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(newMasterPassword, false);
                 using StreamWriter file = new(masterpassword_file, append: false);
 
                 file.WriteLine(new_encrypted_master_password);

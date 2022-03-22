@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Security.Cryptography;
-using System.Windows;
 using System.IO;
 using System.Configuration;
 using PasswordManagerLogger;
@@ -21,9 +20,6 @@ namespace EncryptionHelper
 									 ConfigurationManager.AppSettings["userdata_folder_path"].ToString() +
 									 ConfigurationManager.AppSettings["master_password_file"].ToString() +
 									 ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
-
-#			pragma warning disable CS8602
-			string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
 
 			string encrypted_master_password = "";
 			try
@@ -47,6 +43,8 @@ namespace EncryptionHelper
 			}
 			return decrypted_master_password;
 		}
+
+		// String Generator
 		private static char GenerateChar(string availableChars)
 		{
 			var byteArray = new byte[1];
@@ -78,33 +76,44 @@ namespace EncryptionHelper
 
 			return pwd;
 		}
+
+		// Verschlüsselung
 		public static string Encrypt(string text, bool master)
 		{
 			var b = Encoding.UTF8.GetBytes(text);
-			var encrypted = new byte[b.Length];
+			var encrypted = new byte[16];
 			if (master)
             {
 				encrypted = getAesMaster().CreateEncryptor().TransformFinalBlock(b, 0, b.Length);
 			}
-			encrypted = getAes().CreateEncryptor().TransformFinalBlock(b, 0, b.Length);
+            else
+            {
+				encrypted = getAes().CreateEncryptor().TransformFinalBlock(b, 0, b.Length);
+			}
 			return Convert.ToBase64String(encrypted);
 		}
+
+		// Entschlüsselung
 		public static string Decrypt(string encrypted, bool master)
 		{
 			var b = Convert.FromBase64String(encrypted);
-			var decrypted = new byte[b.Length];
+			var decrypted = new byte[16];
 			if (master)
-			{
-				decrypted = getAesMaster().CreateEncryptor().TransformFinalBlock(b, 0, b.Length);
+            {
+				decrypted = getAesMaster().CreateDecryptor().TransformFinalBlock(b, 0, b.Length);
 			}
-			decrypted = getAes().CreateEncryptor().TransformFinalBlock(b, 0, b.Length);
+            else
+            {
+				decrypted = getAes().CreateDecryptor().TransformFinalBlock(b, 0, b.Length);
+			}
 			return Encoding.UTF8.GetString(decrypted);
 		}
+
+		// Key generierung
 		static Aes getAes()
 		{
-			string master_password = get_master_password();
 			var keyBytes = new byte[16];
-			var skeyBytes = Encoding.UTF8.GetBytes(master_password + "A2CDb7Oc3E0eZ85THaS1JW6Y9hlLIUI4");
+			var skeyBytes = Encoding.UTF8.GetBytes("A2CDb7Oc3E0eZ85THaS1JW6Y9hlLIUI4");
 			Array.Copy(skeyBytes, keyBytes, Math.Min(keyBytes.Length, skeyBytes.Length));
 
 			Aes aes = Aes.Create();
@@ -118,8 +127,9 @@ namespace EncryptionHelper
 		}
 		static Aes getAesMaster()
 		{
+			string master_password = get_master_password();
 			var keyBytes = new byte[16];
-			var skeyBytes = Encoding.UTF8.GetBytes("A2CDb7Oc3E0eZ85THaS1JW6Y9hlLIUI4");
+			var skeyBytes = Encoding.UTF8.GetBytes(master_password + "A2CDb7Oc3E0eZ85THaS1JW6Y9hlLIUI4");
 			Array.Copy(skeyBytes, keyBytes, Math.Min(keyBytes.Length, skeyBytes.Length));
 
 			Aes aes = Aes.Create();

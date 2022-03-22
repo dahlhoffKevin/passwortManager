@@ -103,7 +103,7 @@ namespace PasswordManager.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/PasswordManager;component/pages/addpasswordpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PasswordManager;V1.0.0.0;component/pages/addpasswordpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Pages\addPasswordPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

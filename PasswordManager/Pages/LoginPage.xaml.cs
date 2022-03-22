@@ -36,7 +36,7 @@ namespace PasswordManager.Pages
             string master_password_entry = txtMasterPassword.Password.ToString();
 
             // encrypted master password from master password file
-            string encrypted_master_password = "";
+            string encrypted_master_password;
             try
             {
                 encrypted_master_password = File.ReadAllText(userdata_folder_path + masterpassword_file);
@@ -44,13 +44,14 @@ namespace PasswordManager.Pages
             catch
             {
                 MessageBox.Show("Master Password not set", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             // the encrypted master password from file encrypted
-            string decrypted_master_password_in_file = "";
+            string decrypted_master_password_in_file;
             try
             {
-                decrypted_master_password_in_file = EncryptionHelper.EncryptionHelper.Decrypt(encrypted_master_password);
+                decrypted_master_password_in_file = EncryptionHelper.EncryptionHelper.Decrypt(encrypted_master_password, false);
             }
             catch (Exception ex)
             {
@@ -69,13 +70,15 @@ namespace PasswordManager.Pages
             // checks if the file is empty
             if (decrypted_master_password_in_file == "")
             {
+                MessageBox.Show("File not found!\nTry restarting the application", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             // checks if the passwords are not matching
             if (!(master_password_entry == decrypted_master_password_in_file))
             {
-                MessageBox.Show("Passwords Not Matching", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Passwords Not Matching\nInput: " + master_password_entry + "\nFile: " + encrypted_master_password + "\nOutput: " + decrypted_master_password_in_file, app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog("Login with wrong Password! Used Password: " + master_password_entry, "WARNING");
                 return;
             }
 

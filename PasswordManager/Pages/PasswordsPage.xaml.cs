@@ -129,7 +129,7 @@ namespace PasswordManager.Pages
 
                             if (tmp.Substring(tmp.Length - 2) == "==" || tmp.Substring(tmp.Length - 1) == "=")
                             {
-                                string decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp);
+                                string decrypted_string = EncryptionHelper.EncryptionHelper.Decrypt(tmp, false);
                                 password = decrypted_string;
                                 Clipboard.SetText(password);
                                 MessageBox.Show("Password copied to clipboard", app_name, MessageBoxButton.OK, MessageBoxImage.Information);

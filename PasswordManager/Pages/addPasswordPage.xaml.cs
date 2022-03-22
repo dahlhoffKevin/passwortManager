@@ -26,13 +26,13 @@ namespace PasswordManager.Pages
         private static bool check_folders()
         {
             if (!Directory.Exists(Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    ConfigurationManager.AppSettings["userdata_folder_path"].ToString()))
+                ConfigurationManager.AppSettings["pwd_folder_path"].ToString()))
             {
                 return false;
             }
-
             if (!Directory.Exists(Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                ConfigurationManager.AppSettings["pwd_folder_path"].ToString()))
+                    ConfigurationManager.AppSettings["pwd_manager_folder"].ToString() +
+                    ConfigurationManager.AppSettings["userdata_folder_path"].ToString()))
             {
                 return false;
             }
@@ -83,7 +83,7 @@ namespace PasswordManager.Pages
                 {
                     File.Create(password_folder + entry_password_use + file_ending).Dispose();
                     using StreamWriter file = new(password_folder + entry_password_use + ConfigurationManager.AppSettings["pwd_file_ending"].ToString(), append: true);
-                    string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
+                    string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password, false);
                     file.WriteLine(encrypted_password + "\n" + entry_password_use);
                     file.Close();
                 }
@@ -103,7 +103,7 @@ namespace PasswordManager.Pages
                     }
                     File.Create(password_folder + entry_password_use + file_ending).Dispose();
                     using StreamWriter file = new(password_folder + entry_password_use + file_ending, append: true);
-                    string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password);
+                    string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password, false);
                     file.WriteLine(encrypted_password + "\n" + entry_password_use + "\n" + entry_password_url);
                     file.Close();
 

@@ -10,6 +10,11 @@ namespace PasswordManager.Pages
 {
     public partial class RegisterPage : Page
     {
+        // pwd_manager_folder
+        #pragma warning disable CS8602
+        public string pwd_manager_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
+                ConfigurationManager.AppSettings["pwd_manager_folder"].ToString();
+
         #pragma warning disable CS8602
         public string pwd_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
                 ConfigurationManager.AppSettings["pwd_folder_path"].ToString();
@@ -21,8 +26,11 @@ namespace PasswordManager.Pages
         public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
 
         #pragma warning disable CS8602
-        public string userdata_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) + 
-            ConfigurationManager.AppSettings["userdata_folder_path"].ToString();
+        public string userdata_folder = ConfigurationManager.AppSettings["userdata_folder_path"].ToString();
+
+        #pragma warning disable CS8602
+        public string masterpassword_file = ConfigurationManager.AppSettings["master_password_file"].ToString() + ".txt";
+
         public RegisterPage()
         {
             InitializeComponent();
@@ -31,10 +39,6 @@ namespace PasswordManager.Pages
         {
             string entry_master_password = txtMasterPassword.Password.ToString();
             string entry_master_password_repeat = txtMasterPasswordRepeat.Password.ToString();
-            string userdata_folder = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
-                    @"PasswordManager\userdata\";
-            string masterpassword_file = ConfigurationManager.AppSettings["master_password_file"].ToString() + 
-                pwd_file_ending;
 
             if (!(entry_master_password == entry_master_password_repeat))
             {
@@ -44,12 +48,12 @@ namespace PasswordManager.Pages
 
             try
             {
-                if (!File.Exists(userdata_folder + masterpassword_file))
+                if (!File.Exists(pwd_manager_folder + userdata_folder + masterpassword_file))
                 {
-                    File.Create(userdata_folder + masterpassword_file).Dispose();
-                    using StreamWriter file = new(userdata_folder + masterpassword_file, append: true);
+                    File.Create(pwd_manager_folder + userdata_folder + masterpassword_file).Dispose();
+                    using StreamWriter file = new(pwd_manager_folder + userdata_folder + masterpassword_file, append: true);
 
-                    string encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_master_password);
+                    string encrypted_master_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_master_password, false);
 
                     file.WriteLine(encrypted_master_password);
                     file.Close();
@@ -66,7 +70,7 @@ namespace PasswordManager.Pages
             catch (Exception ex)
             {
                 MessageBox.Show("Ups. An Error occured:\n" + ex, app_name, MessageBoxButton.OK, MessageBoxImage.Error);
-                File.Delete(userdata_folder + masterpassword_file);
+                File.Delete(pwd_manager_folder + userdata_folder + masterpassword_file);
             }
 
         }
