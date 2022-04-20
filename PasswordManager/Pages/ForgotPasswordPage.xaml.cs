@@ -10,6 +10,7 @@ namespace PasswordManager
 {
     public partial class ForgotPasswordPage : Page
     {
+        // all necessary variables for this segment
         #pragma warning disable CS8602
         string masterpassword_file = Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
                                           ConfigurationManager.AppSettings["pwd_manager_folder"].ToString() +

@@ -10,6 +10,8 @@ namespace PasswordManager.Pages
 {
     public partial class addPasswordPage : Page
     {
+
+        // all necessary variables for this segment
         #pragma warning disable CS8602
         public string app_name = ConfigurationManager.AppSettings["app_name"].ToString();
 
@@ -19,10 +21,13 @@ namespace PasswordManager.Pages
                 ConfigurationManager.AppSettings["pwd_folder_path"].ToString();
         public string file_ending = ConfigurationManager.AppSettings["pwd_file_ending"].ToString();
 
+        // initializes the "add password" page
         public addPasswordPage()
         {
             InitializeComponent();
         }
+
+        // checks if all necessary folders have been created
         private static bool check_folders()
         {
             if (!Directory.Exists(Path.GetPathRoot(Environment.GetEnvironmentVariable("WINDIR")) +
@@ -38,6 +43,8 @@ namespace PasswordManager.Pages
             }
             return true;
         }
+
+        // main function for "add password" page
         private void btn_addpassword(object sender, RoutedEventArgs e)
         {
             string entry_password = txtPassword.Password.ToString();
@@ -45,37 +52,48 @@ namespace PasswordManager.Pages
             string entry_password_use = txt_password_use.Text.ToString();
             string entry_password_url = txt_password_url.Text.ToString();
 
+            // checks if all necessary fields are filled in
             if (entry_password == "" || entry_password_confirm == "" || entry_password_use == "")
             {
-                MessageBox.Show("All Fields Must Been Filled In", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("All fields must been filled in", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            // checks if the entered passwords are the same
             if (!(entry_password == entry_password_confirm))
             {
-                MessageBox.Show("Passwords Are Not Machting", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Your passwords are not machting", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            // calls the check_folders methode in order to confirm that all folders were created
             if (!check_folders())
             {
-                MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application\nSee The Logs For More Information", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
-                Logger.WriteLog("Not All Folders Were Created", "ERROR");
+                MessageBox.Show("Ops! An error occured!\nPlease restart the application\nSee the logs for more information", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.WriteLog("Not all folders were created", "ERROR");
                 return;
             }
+
+            // checks if the entered password has a minimum length of 4 characters
             if (!(txtPassword.Password.Length >= 4))
             {
-                MessageBox.Show("Your Password Should Not Be Shorter Than 4 Characters", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Your password should not be shorter than 4 characters", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            // checks if the entered password use has a minimum length of 2 characters
             if (!(txt_password_use.Text.Length > 2))
             {
-                MessageBox.Show("The Password Use Is Too Short", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("The password use is too short", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             try
             {
+                // checks if the entered password already exists
                 if (File.Exists(password_folder + entry_password_use + file_ending))
                 {
-                    MessageBox.Show("Password Already Exists", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Password does already exists", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -89,18 +107,22 @@ namespace PasswordManager.Pages
                 }
                 else
                 {
+                    // will be executed if the entered password url equals empty string
                     try
                     {
+                        // checks if the entered url start with https oder http
                         if (!(entry_password_url.Substring(0, 5) == "https" || entry_password_url.Substring(0, 4) == "http"))
                         {
-                            MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("The entered URL must start with 'https' or 'http'!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
                     } catch
                     {
-                        MessageBox.Show("The Entered URL Must Start With 'https' Or 'http'!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("The entered URL must start with 'https' or 'http'!", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+
+                    // creates a file with the passwort as name to save the entered informations in it
                     File.Create(password_folder + entry_password_use + file_ending).Dispose();
                     using StreamWriter file = new(password_folder + entry_password_use + file_ending, append: true);
                     string encrypted_password = EncryptionHelper.EncryptionHelper.Encrypt(entry_password, false);
@@ -116,11 +138,13 @@ namespace PasswordManager.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ops! An Error Occured!\nPlease Restart The Application\nSee The Logs For More Information", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Ops! An error occured!\nPlease restart the application\nSee the logs for more information", app_name, MessageBoxButton.OK, MessageBoxImage.Error);
                 Logger.WriteLog(ex.ToString(), "ERROR");
                 return;
             }
         }
+
+        // navigates to home page
         private void btn_backhome_click(object sender, RoutedEventArgs e)
         {
             Uri uri = new Uri("Pages/PasswordsPage.xaml", UriKind.Relative);
